@@ -101,7 +101,6 @@ scrollingFrame.Size = UDim2.new(0.95, 0, 0.9, 0)
 scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
 scrollingFrame.AutomaticSize = Enum.AutomaticSize.Y
 listLayout.Parent = scrollingFrame
-listLayout.SortOrder = Enum.SortOrder.LayoutOrder
 listLayout.Padding = UDim.new(0, 5)
 
 -- Load button configuration
