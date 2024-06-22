@@ -145,6 +145,13 @@ listLayout.FillDirection = Enum.FillDirection.Vertical
 listLayout.SortOrder = Enum.SortOrder.LayoutOrder
 listLayout.VerticalAlignment = Enum.VerticalAlignment.Top
 
+UserInputService.InputBegan:Connect(function(input, process)
+	if process then return end
+	if input.KeyCode == Enum.KeyCode.Tab then
+		mainFrame.Visible = not mainFrame.Visible
+	end
+end)
+
 function createScript(name, callback)
 	-- Instances
 
