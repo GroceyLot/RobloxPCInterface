@@ -445,7 +445,9 @@ local function loadData()
 		buttonImageLabel.Rotation = -(tick() - startTime) * 360
 	until done
 	buttonImageLabel.Rotation = 0
+    listLayout.Parent = workspace
 	scrollingFrame:ClearAllChildren()
+    listLayout.Parent = scrollingFrame
 
 	if errorOccurred then
 		createFile(errorMessage)
