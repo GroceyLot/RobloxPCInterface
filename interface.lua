@@ -338,6 +338,8 @@ function createFolder(name, callback)
 	TextButton.TextColor3 = Color3.new(1, 1, 1)
 	TextButton.TextSize = 14
 
+    TextButton.MouseButton1Click:Connect(callback)
+
 	UICorner_3.Parent = TextButton
 
 	ImageLabel.Parent = TextButton
