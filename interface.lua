@@ -31,16 +31,28 @@ mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
 mainFrame.Size = UDim2.new(0.3, 0, 0.35, 0)
 mainUICorner.Parent = mainFrame
 
+local TweenService = game:GetService("TweenService")
+
 local function makeFrameDraggable(frame)
 	local dragging = false
-	local dragInput, mousePos, framePos
+	local dragInput, mousePos, framePos, dragTween
+
+	local function updateFramePosition(newPosition)
+		if dragTween then
+			dragTween:Cancel()
+		end
+
+		local tweenInfo = TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.Out)
+		local goal = {Position = newPosition}
+		dragTween = TweenService:Create(frame, tweenInfo, goal)
+		dragTween:Play()
+	end
 
 	frame.InputBegan:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseButton1 then
 			dragging = true
 			mousePos = input.Position
 			framePos = frame.Position
-
 			input.Changed:Connect(function()
 				if input.UserInputState == Enum.UserInputState.End then
 					dragging = false
@@ -58,7 +70,8 @@ local function makeFrameDraggable(frame)
 	game:GetService("UserInputService").InputChanged:Connect(function(input)
 		if input == dragInput and dragging then
 			local delta = input.Position - mousePos
-			frame.Position = UDim2.new(framePos.X.Scale, framePos.X.Offset + delta.X, framePos.Y.Scale, framePos.Y.Offset + delta.Y)
+			local newPosition = UDim2.new(framePos.X.Scale, framePos.X.Offset + delta.X, framePos.Y.Scale, framePos.Y.Offset + delta.Y)
+			updateFramePosition(newPosition)
 		end
 	end)
 end
@@ -74,7 +87,10 @@ urlTextBox.Size = UDim2.new(0.7, 0, 0.15, 0)
 urlTextBox.ClearTextOnFocus = false
 urlTextBox.Font = Enum.Font.SourceSans
 urlTextBox.PlaceholderText = "http://127.0.0.1:4654"
-urlTextBox.Text = readfile("gotoIp.txt")
+local s, file = pcall(function()
+    return readfile("gotoIp.txt")
+end)
+urlTextBox.Text = s and file or ""
 urlTextBox.TextColor3 = Color3.fromRGB(0, 0, 0)
 urlTextBox.TextScaled = true
 textBoxUICorner.Parent = urlTextBox
