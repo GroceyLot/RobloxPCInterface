@@ -74,7 +74,7 @@ urlTextBox.Size = UDim2.new(0.7, 0, 0.15, 0)
 urlTextBox.ClearTextOnFocus = false
 urlTextBox.Font = Enum.Font.SourceSans
 urlTextBox.PlaceholderText = "http://127.0.0.1:4654"
-urlTextBox.Text = ""
+urlTextBox.Text = readfile("gotoIp.txt")
 urlTextBox.TextColor3 = Color3.fromRGB(0, 0, 0)
 urlTextBox.TextScaled = true
 textBoxUICorner.Parent = urlTextBox
@@ -422,6 +422,7 @@ local function loadData()
 	if loading then
 		return
 	end
+    writefile("gotoIp.txt", urlTextBox.Text)
 	loading = true
 	local done = false
 	local dataJson, errorMessage, errorOccurred = nil, "", false
