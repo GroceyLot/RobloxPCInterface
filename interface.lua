@@ -90,6 +90,233 @@ buttonImageLabel.Size = UDim2.new(1, 0, 1, 0)
 buttonImageLabel.Image = "rbxassetid://4512344746"
 aspectRatioConstraint.Parent = buttonImageLabel
 
+function createScript(name, callback)
+	-- Instances
+
+	local Script = Instance.new("Frame")
+	local UICorner = Instance.new("UICorner")
+	local TextLabel = Instance.new("TextLabel")
+	local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+	local UICorner_2 = Instance.new("UICorner")
+	local TextButton = Instance.new("TextButton")
+	local UICorner_3 = Instance.new("UICorner")
+	local ImageLabel = Instance.new("ImageLabel")
+	local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
+	local UICorner_4 = Instance.new("UICorner")
+
+	-- Properties
+
+	Script.Name = "Script"
+	Script.Parent = scrollingFrame
+	Script.AnchorPoint = Vector2.new(0.5, 0.5)
+	Script.BackgroundColor3 = Color3.new(0.156863, 0.0784314, 0.235294)
+	Script.BorderColor3 = Color3.new(0, 0, 0)
+	Script.BorderSizePixel = 0
+	Script.Size = UDim2.new(1, 0, 0.200000003, 0)
+
+	UICorner.Parent = Script
+
+	TextLabel.Parent = Script
+	TextLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+	TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+	TextLabel.BorderColor3 = Color3.new(0, 0, 0)
+	TextLabel.BorderSizePixel = 0
+	TextLabel.Position = UDim2.new(0.400000006, 0, 0.5, 0)
+	TextLabel.Size = UDim2.new(0.699999988, 0, 0.800000012, 0)
+	TextLabel.Font = Enum.Font.SourceSans
+	TextLabel.TextColor3 = Color3.new(0, 0, 0)
+	TextLabel.TextScaled = true
+	TextLabel.TextSize = 14
+	TextLabel.Text = name
+	TextLabel.TextWrapped = true
+
+	UITextSizeConstraint.Parent = TextLabel
+	UITextSizeConstraint.MaxTextSize = 25
+
+	UICorner_2.Parent = TextLabel
+
+	TextButton.Parent = Script
+	TextButton.AnchorPoint = Vector2.new(0.5, 0.5)
+	TextButton.BackgroundColor3 = Color3.new(1, 1, 1)
+	TextButton.BorderColor3 = Color3.new(0, 0, 0)
+	TextButton.BorderSizePixel = 0
+	TextButton.Position = UDim2.new(0.875, 0, 0.5, 0)
+	TextButton.Size = UDim2.new(0.150000006, 0, 0.800000012, 0)
+	TextButton.Font = Enum.Font.SourceSans
+	TextButton.Text = ""
+	TextButton.TextColor3 = Color3.new(1, 1, 1)
+	TextButton.TextSize = 14
+
+	TextButton.MouseButton1Click:Connect(callback)
+
+	UICorner_3.Parent = TextButton
+
+	ImageLabel.Parent = TextButton
+	ImageLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+	ImageLabel.BackgroundColor3 = Color3.new(0, 0, 0)
+	ImageLabel.BackgroundTransparency = 1
+	ImageLabel.BorderColor3 = Color3.new(0, 0, 0)
+	ImageLabel.BorderSizePixel = 0
+	ImageLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
+	ImageLabel.Size = UDim2.new(1, 0, 1, 0)
+	ImageLabel.Image = "rbxassetid://153287088"
+	ImageLabel.ImageColor3 = Color3.new(0, 0, 0)
+
+	UIAspectRatioConstraint.Parent = ImageLabel
+
+	UICorner_4.Parent = ImageLabel
+end
+
+function createFile(name)
+	-- Instances
+
+	local File = Instance.new("Frame")
+	local UICorner = Instance.new("UICorner")
+	local TextLabel = Instance.new("TextLabel")
+	local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+	local UICorner_2 = Instance.new("UICorner")
+	local TextButton = Instance.new("TextButton")
+	local UICorner_3 = Instance.new("UICorner")
+	local ImageLabel = Instance.new("ImageLabel")
+	local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
+	local UICorner_4 = Instance.new("UICorner")
+
+	-- Properties
+
+	File.Name = "File"
+	File.Parent = scrollingFrame
+	File.AnchorPoint = Vector2.new(0.5, 0.5)
+	File.BackgroundColor3 = Color3.new(0.156863, 0.0784314, 0.235294)
+	File.BorderColor3 = Color3.new(0, 0, 0)
+	File.BorderSizePixel = 0
+	File.Size = UDim2.new(1, 0, 0.200000003, 0)
+
+	UICorner.Parent = File
+
+	TextLabel.Parent = File
+	TextLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+	TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+	TextLabel.BorderColor3 = Color3.new(0, 0, 0)
+	TextLabel.BorderSizePixel = 0
+	TextLabel.Position = UDim2.new(0.400000006, 0, 0.5, 0)
+	TextLabel.Size = UDim2.new(0.699999988, 0, 0.800000012, 0)
+	TextLabel.Font = Enum.Font.SourceSans
+	TextLabel.TextColor3 = Color3.new(0, 0, 0)
+	TextLabel.TextScaled = true
+	TextLabel.TextSize = 14
+	TextLabel.Text = name
+	TextLabel.TextWrapped = true
+
+	UITextSizeConstraint.Parent = TextLabel
+	UITextSizeConstraint.MaxTextSize = 25
+
+	UICorner_2.Parent = TextLabel
+
+	TextButton.Parent = File
+	TextButton.AnchorPoint = Vector2.new(0.5, 0.5)
+	TextButton.BackgroundColor3 = Color3.new(1, 1, 1)
+	TextButton.BorderColor3 = Color3.new(0, 0, 0)
+	TextButton.BorderSizePixel = 0
+	TextButton.Position = UDim2.new(0.875, 0, 0.5, 0)
+	TextButton.Size = UDim2.new(0.150000006, 0, 0.800000012, 0)
+	TextButton.Font = Enum.Font.SourceSans
+	TextButton.Text = ""
+	TextButton.TextColor3 = Color3.new(1, 1, 1)
+	TextButton.TextSize = 14
+
+	UICorner_3.Parent = TextButton
+
+	ImageLabel.Parent = TextButton
+	ImageLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+	ImageLabel.BackgroundColor3 = Color3.new(0, 0, 0)
+	ImageLabel.BackgroundTransparency = 1
+	ImageLabel.BorderColor3 = Color3.new(0, 0, 0)
+	ImageLabel.BorderSizePixel = 0
+	ImageLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
+	ImageLabel.Size = UDim2.new(0.899999976, 0, 0.899999976, 0)
+	ImageLabel.Image = "rbxassetid://13435021955"
+	ImageLabel.ImageColor3 = Color3.new(0, 0, 0)
+
+	UIAspectRatioConstraint.Parent = ImageLabel
+
+	UICorner_4.Parent = ImageLabel
+end
+
+function createFolder(name, callback)
+	-- Instances
+
+	local Folder = Instance.new("Frame")
+	local UICorner = Instance.new("UICorner")
+	local TextLabel = Instance.new("TextLabel")
+	local UITextSizeConstraint = Instance.new("UITextSizeConstraint")
+	local UICorner_2 = Instance.new("UICorner")
+	local TextButton = Instance.new("TextButton")
+	local UICorner_3 = Instance.new("UICorner")
+	local ImageLabel = Instance.new("ImageLabel")
+	local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
+	local UICorner_4 = Instance.new("UICorner")
+
+	-- Properties
+
+	Folder.Name = "Folder"
+	Folder.Parent = scrollingFrame
+	Folder.AnchorPoint = Vector2.new(0.5, 0.5)
+	Folder.BackgroundColor3 = Color3.new(0.156863, 0.0784314, 0.235294)
+	Folder.BorderColor3 = Color3.new(0, 0, 0)
+	Folder.BorderSizePixel = 0
+	Folder.Size = UDim2.new(1, 0, 0.200000003, 0)
+
+	UICorner.Parent = Folder
+
+	TextLabel.Parent = Folder
+	TextLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+	TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+	TextLabel.BorderColor3 = Color3.new(0, 0, 0)
+	TextLabel.BorderSizePixel = 0
+	TextLabel.Position = UDim2.new(0.400000006, 0, 0.5, 0)
+	TextLabel.Size = UDim2.new(0.699999988, 0, 0.800000012, 0)
+	TextLabel.Font = Enum.Font.SourceSans
+	TextLabel.TextColor3 = Color3.new(0, 0, 0)
+	TextLabel.TextScaled = true
+	TextLabel.TextSize = 14
+	TextLabel.Text = name
+	TextLabel.TextWrapped = true
+
+	UITextSizeConstraint.Parent = TextLabel
+	UITextSizeConstraint.MaxTextSize = 25
+
+	UICorner_2.Parent = TextLabel
+
+	TextButton.Parent = Folder
+	TextButton.AnchorPoint = Vector2.new(0.5, 0.5)
+	TextButton.BackgroundColor3 = Color3.new(1, 1, 1)
+	TextButton.BorderColor3 = Color3.new(0, 0, 0)
+	TextButton.BorderSizePixel = 0
+	TextButton.Position = UDim2.new(0.875, 0, 0.5, 0)
+	TextButton.Size = UDim2.new(0.150000006, 0, 0.800000012, 0)
+	TextButton.Font = Enum.Font.SourceSans
+	TextButton.Text = ""
+	TextButton.TextColor3 = Color3.new(1, 1, 1)
+	TextButton.TextSize = 14
+
+	UICorner_3.Parent = TextButton
+
+	ImageLabel.Parent = TextButton
+	ImageLabel.AnchorPoint = Vector2.new(0.5, 0.5)
+	ImageLabel.BackgroundColor3 = Color3.new(0, 0, 0)
+	ImageLabel.BackgroundTransparency = 1
+	ImageLabel.BorderColor3 = Color3.new(0, 0, 0)
+	ImageLabel.BorderSizePixel = 0
+	ImageLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
+	ImageLabel.Size = UDim2.new(1.39999998, 0, 1.39999998, 0)
+	ImageLabel.Image = "rbxassetid://946376164"
+	ImageLabel.ImageColor3 = Color3.new(0, 0, 0)
+
+	UIAspectRatioConstraint.Parent = ImageLabel
+
+	UICorner_4.Parent = ImageLabel
+end
+
 -- Load data function
 local function loadData()
     if loading then
