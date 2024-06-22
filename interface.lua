@@ -411,7 +411,7 @@ local function handleData(dataJson)
                             else
                                 texta = urlTextBox.Text .. "/" .. v["name"]
                             end
-							local scriptData = game:HttpGet(uriEncode(texta))
+							local scriptData = game:HttpGet(texta)
 							local scriptJson = game.HttpService:JSONDecode(scriptData)
 							loadstring(scriptJson["contents"])()
 						end)
@@ -455,7 +455,7 @@ local function loadData()
 
 	task.spawn(function()
 		local success, result = pcall(function()
-			local data = game:HttpGet(uriEncode(urlTextBox.Text))
+			local data = game:HttpGet(urlTextBox.Text)
             print(data)
 			dataJson = game.HttpService:JSONDecode(data)
 			if dataJson["error"] then
