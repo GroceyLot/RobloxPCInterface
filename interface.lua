@@ -203,6 +203,8 @@ function createScript(name, callback)
 
 	UICorner_4.Parent = ImageLabel
     Script.Parent = scrollingFrame
+
+    print("script")
 end
 
 function createFile(name)
@@ -277,6 +279,8 @@ function createFile(name)
 
 	UICorner_4.Parent = ImageLabel
     File.Parent = scrollingFrame
+
+    print("file")
 end
 
 function createFolder(name, callback)
@@ -351,6 +355,8 @@ function createFolder(name, callback)
 
 	UICorner_4.Parent = ImageLabel
     Folder.Parent = scrollingFrame
+
+    print("folder")
 end
 
 local loading = false
@@ -386,7 +392,7 @@ local function handleData(dataJson)
 						end
 					end)
 				end)
-			elseif v["type"] == "folder" then
+			elseif v["extension"] == "folder" then
 				createFolder(v["name"], function()
                     local length = urlTextBox.Text:len()
                     if urlTextBox.Text:sub(length,length) == "/" then
@@ -400,7 +406,7 @@ local function handleData(dataJson)
 			else
 				createFile(v["name"])
 			end
-            print(i)
+            print(tostring(i) .. ": "..v["name"])
 		end
 	else
 		createFile("Error: Unknown data type")
