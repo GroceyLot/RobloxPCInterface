@@ -418,6 +418,7 @@ local function loadData()
 	task.spawn(function()
 		local success, result = pcall(function()
 			local data = game:HttpGet(urlTextBox.Text)
+            print data
 			dataJson = game.HttpService:JSONDecode(data)
 			if dataJson["error"] then
 				errorMessage = dataJson["error"]
