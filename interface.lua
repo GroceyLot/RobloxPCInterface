@@ -365,7 +365,7 @@ local function handleData(dataJson)
 				createScript(v["name"], function()
 					task.spawn(function()
 						local success, result = pcall(function()
-							local scriptData = game:HttpGet(dataJson["path"] .. "/" .. v["name"])
+							local scriptData = game:HttpGet(TextBox.Text .. "/" .. v["name"])
 							local scriptJson = game.HttpService:JSONDecode(scriptData)
 							loadstring(scriptJson["contents"])()
 						end)
@@ -376,7 +376,12 @@ local function handleData(dataJson)
 				end)
 			elseif v["type"] == "folder" then
 				createFolder(v["name"], function()
-					urlTextBox.Text = urlTextBox.Text .. "/" .. v["name"]
+                    local length = urlTextBox.Text:len()
+                    if urlTextBox.Text:sub(length,length) == "/" then
+                        urlTextBox.Text = urlTextBox.Text .. v["name"]
+                    else
+                        urlTextBox.Text = urlTextBox.Text .. "/" .. v["name"]
+                    end
 					scrollingFrame:ClearAllChildren()
 					createFile("Please refresh")
 				end)
