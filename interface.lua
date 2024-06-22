@@ -379,6 +379,16 @@ end
 
 local loading = false
 
+function uriEncode(url)
+    if type(url) ~= "string" then
+        error("url must be a string")
+    end
+    return (url:gsub("[^%w%-_%.~]",
+        function(char)
+            return string.format("%%%02X", string.byte(char))
+        end))
+end
+
 -- Function to handle JSON data
 local function handleData(dataJson)
 	if not dataJson then
@@ -401,7 +411,7 @@ local function handleData(dataJson)
                             else
                                 texta = urlTextBox.Text .. "/" .. v["name"]
                             end
-							local scriptData = game:HttpGet(texta)
+							local scriptData = game:HttpGet(uriEncode(texta))
 							local scriptJson = game.HttpService:JSONDecode(scriptData)
 							loadstring(scriptJson["contents"])()
 						end)
@@ -445,7 +455,7 @@ local function loadData()
 
 	task.spawn(function()
 		local success, result = pcall(function()
-			local data = game:HttpGet(urlTextBox.Text)
+			local data = game:HttpGet(uriEncode(urlTextBox.Text))
             print(data)
 			dataJson = game.HttpService:JSONDecode(data)
 			if dataJson["error"] then
