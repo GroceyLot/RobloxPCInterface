@@ -109,7 +109,6 @@ function createScript(name, callback)
 
     Script.Name = "Script"
     Script.Parent = scrollingFrame
-    Script.AnchorPoint = Vector2.new(0.5, 0.5)
     Script.BackgroundColor3 = Color3.new(0.156863, 0.0784314, 0.235294)
     Script.BorderColor3 = Color3.new(0, 0, 0)
     Script.BorderSizePixel = 0
@@ -186,7 +185,6 @@ function createFile(name)
 
     File.Name = "File"
     File.Parent = scrollingFrame
-    File.AnchorPoint = Vector2.new(0.5, 0.5)
     File.BackgroundColor3 = Color3.new(0.156863, 0.0784314, 0.235294)
     File.BorderColor3 = Color3.new(0, 0, 0)
     File.BorderSizePixel = 0
@@ -261,7 +259,6 @@ function createFolder(name, callback)
 
     Folder.Name = "Folder"
     Folder.Parent = scrollingFrame
-    Folder.AnchorPoint = Vector2.new(0.5, 0.5)
     Folder.BackgroundColor3 = Color3.new(0.156863, 0.0784314, 0.235294)
     Folder.BorderColor3 = Color3.new(0, 0, 0)
     Folder.BorderSizePixel = 0
