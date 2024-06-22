@@ -2,15 +2,17 @@
 
 A helpful tool which lets you interact and execute scripts from your local filesystem in roblox. Especially useful when using an android emulator.
 
-Basically, download serve.py and put it in a folder. Install flask with 
+Basically, download serve.py and put it in a folder. Install flask with this in your cmd:
 ```
 pip install flask
 ```
-Then run 
+
+Then run this in a game to open the ui:
 ```
 loadstring(game:HttpGet("https://github.com/GroceyLot/RobloxPCInterface/raw/Things/interface.lua"))()
 ```
-in a game to open the ui. In the console of the python it will say something like this:
+
+In the console of the python it will say something like this:
 ```
  * Running on all addresses (0.0.0.0)
  * Running on http://127.0.0.1:4654
