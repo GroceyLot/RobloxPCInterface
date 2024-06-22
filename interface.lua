@@ -362,10 +362,10 @@ local function handleData(dataJson)
 		return
 	end
 
-	if dataJson["type"] == "file" then
+	if dataJson.type == "file" then
 		createFile("Please specify a path to a folder, not a file")
-	elseif dataJson["type"] == "folder" then
-		for _, v in ipairs(dataJson["contents"]) do
+	elseif dataJson.type == "folder" then
+		for i, v in ipairs(dataJson["contents"]) do
 			if v["extension"] == ".lua" or v["extension"] == ".luau" then
 				createScript(v["name"], function()
 					task.spawn(function()
@@ -400,6 +400,7 @@ local function handleData(dataJson)
 			else
 				createFile(v["name"])
 			end
+            print(i)
 		end
 	else
 		createFile("Error: Unknown data type")
