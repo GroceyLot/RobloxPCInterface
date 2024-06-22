@@ -146,7 +146,7 @@ listLayout.SortOrder = Enum.SortOrder.LayoutOrder
 listLayout.VerticalAlignment = Enum.VerticalAlignment.Top
 
 game.UserInputService.InputBegan:Connect(function(input, process)
-	if input.KeyCode == Enum.KeyCode.Tab then
+	if input.KeyCode == Enum.KeyCode.M then
 		mainFrame.Visible = not mainFrame.Visible
 	end
 end)
