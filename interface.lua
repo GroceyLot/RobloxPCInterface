@@ -124,6 +124,11 @@ buttonImageLabel.ImageColor3 = Color3.new(0,0,0)
 buttonImageLabel.Image = "rbxassetid://4512344746"
 aspectRatioConstraint.Parent = buttonImageLabel
 
+-- Make sure the scrolling frame and its layout are set correctly
+listLayout.FillDirection = Enum.FillDirection.Vertical
+listLayout.SortOrder = Enum.SortOrder.LayoutOrder
+listLayout.VerticalAlignment = Enum.VerticalAlignment.Top
+
 function createScript(name, callback)
 	-- Instances
 
@@ -141,7 +146,6 @@ function createScript(name, callback)
 	-- Properties
 
 	Script.Name = "Script"
-	Script.Parent = scrollingFrame
 	Script.BackgroundColor3 = Color3.new(0.156863, 0.0784314, 0.235294)
 	Script.BorderColor3 = Color3.new(0, 0, 0)
 	Script.BorderSizePixel = 0
@@ -198,6 +202,7 @@ function createScript(name, callback)
 	UIAspectRatioConstraint.Parent = ImageLabel
 
 	UICorner_4.Parent = ImageLabel
+    Script.Parent = scrollingFrame
 end
 
 function createFile(name)
@@ -217,7 +222,6 @@ function createFile(name)
 	-- Properties
 
 	File.Name = "File"
-	File.Parent = scrollingFrame
 	File.BackgroundColor3 = Color3.new(0.156863, 0.0784314, 0.235294)
 	File.BorderColor3 = Color3.new(0, 0, 0)
 	File.BorderSizePixel = 0
@@ -272,6 +276,7 @@ function createFile(name)
 	UIAspectRatioConstraint.Parent = ImageLabel
 
 	UICorner_4.Parent = ImageLabel
+    File.Parent = scrollingFrame
 end
 
 function createFolder(name, callback)
@@ -291,7 +296,6 @@ function createFolder(name, callback)
 	-- Properties
 
 	Folder.Name = "Folder"
-	Folder.Parent = scrollingFrame
 	Folder.BackgroundColor3 = Color3.new(0.156863, 0.0784314, 0.235294)
 	Folder.BorderColor3 = Color3.new(0, 0, 0)
 	Folder.BorderSizePixel = 0
@@ -346,6 +350,7 @@ function createFolder(name, callback)
 	UIAspectRatioConstraint.Parent = ImageLabel
 
 	UICorner_4.Parent = ImageLabel
+    Folder.Parent = scrollingFrame
 end
 
 local loading = false
