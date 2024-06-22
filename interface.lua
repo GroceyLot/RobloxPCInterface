@@ -400,7 +400,9 @@ local function handleData(dataJson)
                     else
                         urlTextBox.Text = urlTextBox.Text .. "/" .. v["name"]
                     end
+                    listLayout.Parent = workspace
 					scrollingFrame:ClearAllChildren()
+                    listLayout.Parent = scrollingFrame
 					createFile("Please refresh")
 				end)
 			else
