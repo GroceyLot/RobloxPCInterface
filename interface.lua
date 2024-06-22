@@ -365,7 +365,14 @@ local function handleData(dataJson)
 				createScript(v["name"], function()
 					task.spawn(function()
 						local success, result = pcall(function()
-							local scriptData = game:HttpGet(TextBox.Text .. "/" .. v["name"])
+                            local length = urlTextBox.Text:len()
+                            local texta
+                            if urlTextBox.Text:sub(length,length) == "/" then
+                                texta = urlTextBox.Text .. v["name"]
+                            else
+                                texta = urlTextBox.Text .. "/" .. v["name"]
+                            end
+							local scriptData = game:HttpGet(texta)
 							local scriptJson = game.HttpService:JSONDecode(scriptData)
 							loadstring(scriptJson["contents"])()
 						end)
