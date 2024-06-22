@@ -29,6 +29,7 @@ mainFrame.BackgroundColor3 = Color3.fromRGB(40, 20, 60)
 mainFrame.BorderSizePixel = 0
 mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
 mainFrame.Size = UDim2.new(0.3, 0, 0.35, 0)
+mainFrame.Draggable = true
 mainUICorner.Parent = mainFrame
 
 -- URL text box settings
