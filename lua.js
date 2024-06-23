@@ -54,7 +54,14 @@
       globals: [
         "game",
         "workspace",
-        "game.Workspace"
+        "Color3",
+        "Vector3",
+        "Instance",
+        "UserInputService",
+        "HttpService",
+        "Players",
+        "Lighting",
+        "ReplicatedStorage"
       ],
       brackets: [
         { token: "delimiter.bracket", open: "{", close: "}" },
@@ -172,7 +179,7 @@ monaco.languages.setMonarchTokensProvider('luau', language);
 
 monaco.languages.setLanguageConfiguration('luau', conf);
 
-// Register the completion item provider for Lua language
+// Register the completion item provider with additional suggestions
 monaco.languages.registerCompletionItemProvider('luau', {
   provideCompletionItems: () => {
     var suggestions = [
@@ -187,16 +194,72 @@ monaco.languages.registerCompletionItemProvider('luau', {
         kind: monaco.languages.CompletionItemKind.Variable,
         insertText: 'workspace',
         detail: 'The workspace'
+      },
+      {
+        label: 'Color3',
+        kind: monaco.languages.CompletionItemKind.Class,
+        insertText: 'Color3.new(${1:r}, ${2:g}, ${3:b})',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Color3 class for defining colors'
+      },
+      {
+        label: 'Vector3',
+        kind: monaco.languages.CompletionItemKind.Class,
+        insertText: 'Vector3.new(${1:x}, ${2:y}, ${3:z})',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Vector3 class for 3D vectors'
+      },
+      {
+        label: 'Instance',
+        kind: monaco.languages.CompletionItemKind.Class,
+        insertText: 'Instance.new("${1:className}")',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Instance class for creating instances'
+      },
+      {
+        label: 'UserInputService',
+        kind: monaco.languages.CompletionItemKind.Variable,
+        insertText: 'UserInputService',
+        detail: 'UserInputService service for handling user input'
+      },
+      {
+        label: 'HttpService',
+        kind: monaco.languages.CompletionItemKind.Variable,
+        insertText: 'HttpService',
+        detail: 'HttpService service for HTTP requests'
+      },
+      {
+        label: 'Players',
+        kind: monaco.languages.CompletionItemKind.Variable,
+        insertText: 'Players',
+        detail: 'Players service for managing players'
+      },
+      {
+        label: 'Lighting',
+        kind: monaco.languages.CompletionItemKind.Variable,
+        insertText: 'Lighting',
+        detail: 'Lighting service for controlling game lighting'
+      },
+      {
+        label: 'ReplicatedStorage',
+        kind: monaco.languages.CompletionItemKind.Variable,
+        insertText: 'ReplicatedStorage',
+        detail: 'ReplicatedStorage service for storing shared objects'
       }
     ];
     return { suggestions: suggestions };
   }
 });
 
+// Update the theme to include additional token color configurations
 monaco.editor.defineTheme('mainTheme', {
   base: 'vs-dark',
   inherit: true,
   rules: [
-    { token: 'global', foreground: 'FFA500' }  // Set your desired color here
+    { token: 'global', foreground: 'FFA500' }, // Existing rule for globals
+    { token: 'keyword', foreground: '569CD6' }, // Keywords in blue
+    { token: 'string', foreground: 'D69D85' },  // Strings in light brown
+    { token: 'number', foreground: 'B5CEA8' },  // Numbers in light green
+    { token: 'comment', foreground: '6A9955' }  // Comments in green
   ]
 });
