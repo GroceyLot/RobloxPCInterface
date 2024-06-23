@@ -530,7 +530,7 @@ end
 
 while true do
 	task.wait(1)
-	pcall(function()
+	local s, r = pcall(function()
 		local urlasd = extract_base_url(urlTextBox.Text).."executing"
 		print(urlasd)
 		local data = game:HttpGet(urlasd)
@@ -541,4 +541,5 @@ while true do
 			end
 		end
 	end)
+	if not s then print(r) end
 end
