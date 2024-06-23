@@ -178,12 +178,13 @@ monaco.languages.register({ id: 'luau' });
 monaco.languages.setMonarchTokensProvider('luau', language);
 
 monaco.languages.setLanguageConfiguration('luau', conf);
-// Register the completion item provider with conditional logic
+
 monaco.languages.registerCompletionItemProvider('luau', {
   provideCompletionItems: (model, position) => {
     const textUntilPosition = model.getValueInRange({ startLineNumber: position.lineNumber, startColumn: 1, endLineNumber: position.lineNumber, endColumn: position.column });
 
-    var suggestions = [
+    // Common suggestions
+    const suggestions = [
       {
         label: 'game',
         kind: monaco.languages.CompletionItemKind.Variable,
@@ -198,7 +199,7 @@ monaco.languages.registerCompletionItemProvider('luau', {
       },
       {
         label: 'Color3',
-        kind: monaco.languages.CompletionItemKind.Class,
+        kind: monaco.languages.CompletionItemKind.Color,
         insertText: 'Color3.new(${1:r}, ${2:g}, ${3:b})',
         insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
         detail: 'Color3 class for defining colors'
@@ -216,42 +217,27 @@ monaco.languages.registerCompletionItemProvider('luau', {
         insertText: 'Instance.new("${1:className}")',
         insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
         detail: 'Instance class for creating instances'
-      },
-      {
-        label: 'UserInputService',
-        kind: monaco.languages.CompletionItemKind.Variable,
-        insertText: 'UserInputService',
-        detail: 'UserInputService service for handling user input'
-      },
-      {
-        label: 'Players',
-        kind: monaco.languages.CompletionItemKind.Variable,
-        insertText: 'Players',
-        detail: 'Players service for managing players'
-      },
-      {
-        label: 'Lighting',
-        kind: monaco.languages.CompletionItemKind.Variable,
-        insertText: 'Lighting',
-        detail: 'Lighting service for controlling game lighting'
-      },
-      {
-        label: 'ReplicatedStorage',
-        kind: monaco.languages.CompletionItemKind.Variable,
-        insertText: 'ReplicatedStorage',
-        detail: 'ReplicatedStorage service for storing shared objects'
       }
     ];
 
-    // Add HttpService suggestion only if the text until the position contains 'game.'
-    if (textUntilPosition.includes('game.')) {
+    // Properties and services under `game`
+    const gameChildren = [
+      'HttpService',
+      'UserInputService',
+      'Players',
+      'Lighting',
+      'ReplicatedStorage'
+    ];
+
+    // Add suggestions for properties and services under `game`
+    gameChildren.forEach(child => {
       suggestions.push({
-        label: 'HttpService',
+        label: child,
         kind: monaco.languages.CompletionItemKind.Variable,
-        insertText: 'HttpService',
-        detail: 'HttpService service for HTTP requests'
+        insertText: child,
+        detail: `${child} service`
       });
-    }
+    });
 
     return { suggestions: suggestions };
   }
