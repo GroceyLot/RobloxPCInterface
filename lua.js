@@ -49,7 +49,9 @@
         "then",
         "true",
         "until",
-        "while"
+        "while",
+        "type",
+        "continue"
       ],
       globals: [
         "game",
@@ -61,7 +63,16 @@
         "HttpService",
         "Players",
         "Lighting",
-        "ReplicatedStorage"
+        "ReplicatedStorage",
+        "pcall",
+        "print",
+        "UDim2",
+        "Vector2",
+        "loadstring",
+        "HttpGet",
+        "GetService",
+        "Workspace",
+        "Enum"
       ],
       brackets: [
         { token: "delimiter.bracket", open: "{", close: "}" },
@@ -198,6 +209,12 @@ monaco.languages.registerCompletionItemProvider('luau', {
         detail: 'The workspace'
       },
       {
+        label: 'Enum',
+        kind: monaco.languages.CompletionItemKind.Variable,
+        insertText: 'Enum',
+        detail: 'Enums'
+      },
+      {
         label: 'Color3',
         kind: monaco.languages.CompletionItemKind.Color,
         insertText: 'Color3.new(${1:r}, ${2:g}, ${3:b})',
@@ -212,11 +229,46 @@ monaco.languages.registerCompletionItemProvider('luau', {
         detail: 'Vector3 class for 3D vectors'
       },
       {
+        label: 'Vector2',
+        kind: monaco.languages.CompletionItemKind.Class,
+        insertText: 'Vector2.new(${1:x}, ${2:y})',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Vector2 class for 2D vectors'
+      },
+      {
+        label: 'UDim2',
+        kind: monaco.languages.CompletionItemKind.Class,
+        insertText: 'UDim2.new(${1:xOffset}, ${2:xScale}, ${1:yOffset}, ${2:yScale})',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'UDim2 class for 2D vectors'
+      },
+      {
         label: 'Instance',
         kind: monaco.languages.CompletionItemKind.Class,
         insertText: 'Instance.new("${1:className}")',
         insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
         detail: 'Instance class for creating instances'
+      },
+      {
+        label: 'print',
+        kind: monaco.languages.CompletionItemKind.Function,
+        insertText: 'print("${1:text}")',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Print text'
+      },
+        {
+        label: 'loadstring',
+        kind: monaco.languages.CompletionItemKind.Function,
+        insertText: 'loadstring("${1:text}")()',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Return a function from a string'
+      },
+      {
+        label: 'pcall',
+        kind: monaco.languages.CompletionItemKind.Function,
+        insertText: 'print("${1:function}")',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Pcall a function'
       }
     ];
 
@@ -226,7 +278,8 @@ monaco.languages.registerCompletionItemProvider('luau', {
       'UserInputService',
       'Players',
       'Lighting',
-      'ReplicatedStorage'
+      'ReplicatedStorage',
+      'Workspace'
     ];
 
     // Add suggestions for properties and services under `game`
