@@ -1,4 +1,4 @@
-define("vs/basic-languages/lua/lua", ["require"], (require) => {
+define("vs/basic-languages/luau/luau", ["require"], (require) => {
   "use strict";
   var moduleExports = (() => {
     var __defProp = Object.defineProperty;
