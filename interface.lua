@@ -527,19 +527,18 @@ function extract_base_url(url)
     return base_url
 end
 
-task.spawn(function()
-	while true do
-		task.wait(1)
-		pcall(function()
-			local urlasd = extract_base_url(urlTextBox.Text).."executing"
-			print(urlasd)
-			local data = game:HttpGet(urlasd)
-			if data then
-				local json = game.HttpService:JSONDecode(data)
-				if json and json["script"] then
-					loadstring(json.script)
-				end
+
+while true do
+	task.wait(1)
+	pcall(function()
+		local urlasd = extract_base_url(urlTextBox.Text).."executing"
+		print(urlasd)
+		local data = game:HttpGet(urlasd)
+		if data then
+			local json = game.HttpService:JSONDecode(data)
+			if json and json["script"] then
+				loadstring(json.script)
 			end
-		end)
-	end
-end)
+		end
+	end)
+end
