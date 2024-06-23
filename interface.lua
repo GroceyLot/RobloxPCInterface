@@ -523,23 +523,26 @@ end
 loadButton.MouseButton1Click:Connect(loadData)
 
 function extract_base_url(url)
-    local base_url = url:match("^(http://%d+%.%d+%.%d+%.%d+:%d+/)")
+    local base_url = url:match("^(http://%d+%.%d+%.%d+%.%d+:%d+)/") or url:match("^(http://%d+%.%d+%.%d+%.%d+)/")
     return base_url
 end
 
-
 while true do
-	task.wait(1)
-	local s, r = pcall(function()
-		local urlasd = extract_base_url(urlTextBox.Text).."executing"
-		print(urlasd)
-		local data = game:HttpGet(urlasd)
-		if data then
-			local json = game.HttpService:JSONDecode(data)
-			if json and json["script"] then
-				loadstring(json.script)
-			end
-		end
-	end)
-	if not s then print(r) end
+    task.wait(1)
+    local s, r = pcall(function()
+        local baseUrl = extract_base_url(urlTextBox.Text)
+        if not baseUrl then
+            error("Invalid URL format")
+        end
+        local urlasd = baseUrl .. "executing"
+        print(urlasd)
+        local data = game:HttpGet(urlasd)
+        if data then
+            local json = game.HttpService:JSONDecode(data)
+            if json and json["script"] then
+                loadstring(json.script)()
+            end
+        end
+    end)
+    if not s then print(r) end
 end
