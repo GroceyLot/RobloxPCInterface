@@ -178,10 +178,11 @@ monaco.languages.register({ id: 'luau' });
 monaco.languages.setMonarchTokensProvider('luau', language);
 
 monaco.languages.setLanguageConfiguration('luau', conf);
-
-// Register the completion item provider with additional suggestions
+// Register the completion item provider with conditional logic
 monaco.languages.registerCompletionItemProvider('luau', {
-  provideCompletionItems: () => {
+  provideCompletionItems: (model, position) => {
+    const textUntilPosition = model.getValueInRange({ startLineNumber: position.lineNumber, startColumn: 1, endLineNumber: position.lineNumber, endColumn: position.column });
+
     var suggestions = [
       {
         label: 'game',
@@ -223,12 +224,6 @@ monaco.languages.registerCompletionItemProvider('luau', {
         detail: 'UserInputService service for handling user input'
       },
       {
-        label: 'HttpService',
-        kind: monaco.languages.CompletionItemKind.Variable,
-        insertText: 'HttpService',
-        detail: 'HttpService service for HTTP requests'
-      },
-      {
         label: 'Players',
         kind: monaco.languages.CompletionItemKind.Variable,
         insertText: 'Players',
@@ -247,6 +242,17 @@ monaco.languages.registerCompletionItemProvider('luau', {
         detail: 'ReplicatedStorage service for storing shared objects'
       }
     ];
+
+    // Add HttpService suggestion only if the text until the position contains 'game.'
+    if (textUntilPosition.includes('game.')) {
+      suggestions.push({
+        label: 'HttpService',
+        kind: monaco.languages.CompletionItemKind.Variable,
+        insertText: 'HttpService',
+        detail: 'HttpService service for HTTP requests'
+      });
+    }
+
     return { suggestions: suggestions };
   }
 });
