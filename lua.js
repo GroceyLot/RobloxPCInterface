@@ -180,21 +180,23 @@ monaco.languages.registerCompletionItemProvider('luau', {
         label: 'game',
         kind: monaco.languages.CompletionItemKind.Variable,
         insertText: 'game',
-        detail: 'Global Variable'
+        detail: 'The entire game'
       },
       {
         label: 'workspace',
         kind: monaco.languages.CompletionItemKind.Variable,
         insertText: 'workspace',
-        detail: 'Global Variable'
-      },
-      {
-        label: 'game.Workspace',
-        kind: monaco.languages.CompletionItemKind.Variable,
-        insertText: 'game.Workspace',
-        detail: 'Global Variable'
+        detail: 'The workspace'
       }
     ];
     return { suggestions: suggestions };
   }
+});
+
+monaco.editor.defineTheme('mainTheme', {
+  base: 'vs-dark',
+  inherit: true,
+  rules: [
+    { token: 'global', foreground: 'FFA500' }  // Set your desired color here
+  ]
 });
