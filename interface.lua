@@ -152,18 +152,22 @@ game.UserInputService.InputBegan:Connect(function(input, process)
 end)
 
 function go_up_one_path(url)
-    local base_url, path = url:match("^(http://%d+%.%d+%.%d+%.%d+:%d+/)(.*)$")
+    local base_url, path = url:match("^(http://%d+%.%d+%.%d+%.%d+:%d*/?)(.*)$")
+    if not base_url then
+        base_url, path = url:match("^(http://%d+%.%d+%.%d+%.%d+/?)(.*)$")
+    end
+    
     if not base_url then
         return nil -- Invalid URL
     end
+
     if path == "" then
         return url -- Already at base level
     end
+
     -- Remove the last segment from the path
-    local new_path = path:match("^(.-)/[^/]*$")
-    if not new_path then
-        return base_url -- If there's no more path to go up to, return the base URL
-    end
+    local new_path = path:match("^(.-)/[^/]*$") or ""
+    
     return base_url .. new_path
 end
 
@@ -523,7 +527,11 @@ end
 loadButton.MouseButton1Click:Connect(loadData)
 
 function extract_base_url(url)
+    -- Match URLs with port and without port, ensuring the URL ends with a slash
     local base_url = url:match("^(http://%d+%.%d+%.%d+%.%d+:%d+)/") or url:match("^(http://%d+%.%d+%.%d+%.%d+)/")
+    if base_url and not base_url:sub(-1) == "/" then
+        base_url = base_url .. "/"
+    end
     return base_url
 end
 
@@ -535,7 +543,6 @@ while true do
             error("Invalid URL format")
         end
         local urlasd = baseUrl .. "executing"
-        print(urlasd)
         local data = game:HttpGet(urlasd)
         if data then
             local json = game.HttpService:JSONDecode(data)
