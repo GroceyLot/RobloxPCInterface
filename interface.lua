@@ -151,6 +151,22 @@ game.UserInputService.InputBegan:Connect(function(input, process)
 	end
 end)
 
+function go_up_one_path(url)
+    local base_url, path = url:match("^(http://%d+%.%d+%.%d+%.%d+:%d+/)(.*)$")
+    if not base_url then
+        return nil -- Invalid URL
+    end
+    if path == "" then
+        return url -- Already at base level
+    end
+    -- Remove the last segment from the path
+    local new_path = path:match("^(.-)/[^/]*$")
+    if not new_path then
+        return base_url -- If there's no more path to go up to, return the base URL
+    end
+    return base_url .. new_path
+end
+
 function createScript(name, callback)
 	-- Instances
 
@@ -405,6 +421,13 @@ local function handleData(dataJson)
 	if dataJson.type == "file" then
 		createFile("Please specify a path to a folder, not a file")
 	elseif dataJson.type == "folder" then
+		createFolder("Back", function()
+                    urlTextBox.Text = go_up_one_path(urlTextBox.Text)
+                    listLayout.Parent = workspace
+					scrollingFrame:ClearAllChildren()
+                    listLayout.Parent = scrollingFrame
+					createFile("Please refresh")
+				end)
 		for i, v in ipairs(dataJson["contents"]) do
 			if v["extension"] == ".lua" or v["extension"] == ".luau" then
 				createScript(v["name"], function()
