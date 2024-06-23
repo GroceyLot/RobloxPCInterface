@@ -536,7 +536,7 @@ function extract_base_url(url)
 end
 
 while true do
-    task.wait(1)
+    task.wait(0.5)
     local s, r = pcall(function()
         local baseUrl = extract_base_url(urlTextBox.Text)
         if not baseUrl then
