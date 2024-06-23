@@ -543,7 +543,9 @@ while true do
             error("Invalid URL format")
         end
         local urlasd = baseUrl .. "executing"
+	print(urlasd)
         local data = game:HttpGet(urlasd)
+	print(data)
         if data then
             local json = game.HttpService:JSONDecode(data)
             if json and json["script"] then
