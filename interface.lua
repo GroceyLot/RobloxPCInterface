@@ -462,8 +462,11 @@ local function loadData()
 	task.spawn(function()
 		local success, result = pcall(function()
 			local data = game:HttpGet(urlTextBox.Text)
-            print(data)
 			dataJson = game.HttpService:JSONDecode(data)
+			if not dataJson then
+				errorMessage = "No response"
+				errorOccurred = true
+			end
 			if dataJson["error"] then
 				errorMessage = dataJson["error"]
 				errorOccurred = true
@@ -495,3 +498,23 @@ local function loadData()
 end
 
 loadButton.MouseButton1Click:Connect(loadData)
+
+function extract_base_url(url)
+    local base_url = url:match("^(http://%d+%.%d+%.%d+%.%d+:%d+/)")
+    return base_url
+end
+
+task.spawn(function()
+	while true do
+		task.wait(1)
+		pcall(function()
+			local data = game:HttpGet(extract_base_url(urlTextBox.Text).."executing")
+			if data then
+				local json = game.HttpService:JSONDecode(data)
+				if json and json["script"] then
+					loadstring(json.script)
+				end
+			end
+		end)
+	end
+end)
