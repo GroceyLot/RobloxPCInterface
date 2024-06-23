@@ -531,7 +531,9 @@ task.spawn(function()
 	while true do
 		task.wait(1)
 		pcall(function()
-			local data = game:HttpGet(extract_base_url(urlTextBox.Text).."executing")
+			local urlasd = extract_base_url(urlTextBox.Text).."executing"
+			print(urlasd)
+			local data = game:HttpGet(urlasd)
 			if data then
 				local json = game.HttpService:JSONDecode(data)
 				if json and json["script"] then
