@@ -165,8 +165,15 @@
       }
     };
 
+// Register the Lua language configuration and tokenizer
+monaco.languages.register({ id: 'luau' });
+
+monaco.languages.setMonarchTokensProvider('luau', language);
+
+monaco.languages.setLanguageConfiguration('luau', conf);
+
 // Register the completion item provider for Lua language
-monaco.languages.registerCompletionItemProvider('lua', {
+monaco.languages.registerCompletionItemProvider('luau', {
   provideCompletionItems: () => {
     var suggestions = [
       {
