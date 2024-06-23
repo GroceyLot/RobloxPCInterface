@@ -266,7 +266,7 @@ monaco.languages.registerCompletionItemProvider('luau', {
       {
         label: 'pcall',
         kind: monaco.languages.CompletionItemKind.Function,
-        insertText: 'print("${1:function}")',
+        insertText: 'pcall("${1:function}")',
         insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
         detail: 'Pcall a function'
       }
@@ -282,7 +282,8 @@ monaco.languages.registerCompletionItemProvider('luau', {
       'Workspace'
     ];
 
-    // Add suggestions for properties and services under `game`
+    if (textUntilPosition.includes('game.')) {
+         // Add suggestions for properties and services under `game`
     gameChildren.forEach(child => {
       suggestions.push({
         label: child,
@@ -291,6 +292,21 @@ monaco.languages.registerCompletionItemProvider('luau', {
         detail: `${child} service`
       });
     });
+      suggestions.push({
+        label: 'HttpGet',
+        kind: monaco.languages.CompletionItemKind.Function,
+        insertText: 'HttpGet(${1:url})',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'HTTP requests'
+      });
+    suggestions.push({
+        label: 'GetService',
+        kind: monaco.languages.CompletionItemKind.Function,
+        insertText: 'GetService(${1:service})',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Get a service'
+      });
+    }
 
     return { suggestions: suggestions };
   }
