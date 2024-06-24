@@ -190,262 +190,253 @@ monaco.languages.setLanguageConfiguration('luau', conf);
 
 monaco.languages.registerCompletionItemProvider('luau', {
   provideCompletionItems: (model, position) => {
-  const textUntilPosition = model.getValueInRange({ startLineNumber: position.lineNumber, startColumn: 1, endLineNumber: position.lineNumber, endColumn: position.column });
+    const textUntilPosition = model.getValueInRange({ startLineNumber: position.lineNumber, startColumn: 1, endLineNumber: position.lineNumber, endColumn: position.column });
 
-  const suggestions = [
-    {
-      label: 'game',
-      kind: monaco.languages.CompletionItemKind.Variable,
-      insertText: 'game',
-      detail: 'The entire game'
-    },
-    {
-      label: 'workspace',
-      kind: monaco.languages.CompletionItemKind.Variable,
-      insertText: 'workspace',
-      detail: 'The workspace'
-    },
-    {
-      label: 'Enum',
-      kind: monaco.languages.CompletionItemKind.Variable,
-      insertText: 'Enum',
-      detail: 'Enums'
-    },
-    {
-      label: 'Color3',
-      kind: monaco.languages.CompletionItemKind.Color,
-      insertText: 'Color3.new(${1:r}, ${2:g}, ${3:b})',
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-      detail: 'Color3 class for defining colors'
-    },
-    {
-      label: 'Vector3',
-      kind: monaco.languages.CompletionItemKind.Class,
-      insertText: 'Vector3.new(${1:x}, ${2:y}, ${3:z})',
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-      detail: 'Vector3 class for 3D vectors'
-    },
-    {
-      label: 'Vector2',
-      kind: monaco.languages.CompletionItemKind.Class,
-      insertText: 'Vector2.new(${1:x}, ${2:y})',
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-      detail: 'Vector2 class for 2D vectors'
-    },
-    {
-      label: 'UDim2',
-      kind: monaco.languages.CompletionItemKind.Class,
-      insertText: 'UDim2.new(${1:xOffset}, ${2:xScale}, ${1:yOffset}, ${2:yScale})',
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-      detail: 'UDim2 class for 2D vectors'
-    },
-    {
-      label: 'Instance',
-      kind: monaco.languages.CompletionItemKind.Class,
-      insertText: 'Instance.new("${1:className}")',
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-      detail: 'Instance class for creating instances'
-    },
-    {
-      label: '_G',
-      kind: monaco.languages.CompletionItemKind.Variable,
-      insertText: '_G',
-      detail: 'Globals'
-    },
-    {
-      label: 'print',
-      kind: monaco.languages.CompletionItemKind.Function,
-      insertText: 'print("${1:text}")',
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-      detail: 'Print text'
-    },
-    {
-      label: 'error',
-      kind: monaco.languages.CompletionItemKind.Function,
-      insertText: 'error("${1:text}")',
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-      detail: 'Error text'
-    },
-    {
-      label: 'warn',
-      kind: monaco.languages.CompletionItemKind.Function,
-      insertText: 'warning("${1:text}")',
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-      detail: 'You have been warned'
-    },
-    {
-      label: 'loadstring',
-      kind: monaco.languages.CompletionItemKind.Function,
-      insertText: 'loadstring("${1:text}")()',
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-      detail: 'Return a function from a string'
-    },
-    {
-      label: 'pcall',
-      kind: monaco.languages.CompletionItemKind.Function,
-      insertText: 'pcall(${1:function})',
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-      detail: 'Pcall a function'
-    },
-    {
-      label: 'pairs',
-      kind: monaco.languages.CompletionItemKind.Function,
-      insertText: 'pairs(${1:table})',
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-      detail: 'Loop through table'
-    },
-    {
-      label: 'ipairs',
-      kind: monaco.languages.CompletionItemKind.Function,
-      insertText: 'ipairs(${1:table})',
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-      detail: 'Loop through table in order'
-    },
-    {
-      label: 'tick',
-      kind: monaco.languages.CompletionItemKind.Function,
-      insertText: 'tick()',
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-      detail: 'Time since unix epoch'
-    }
-  ];
-
-  const gameChildren = [
-    'HttpService',
-    'UserInputService',
-    'Players',
-    'Lighting',
-    'ReplicatedStorage',
-    'Workspace',
-    'RunService',
-    'TweenService',
-    'CollectionService',
-    'TextService',
-    'SoundService',
-    'Debris',
-    'PathfindingService',
-    'TeleportService',
-    'LocalizationService',
-    'Teams',
-    'Stats',
-    'StarterGui',
-    'StarterPack',
-    'StarterPlayer',
-    'TestService',
-    'CoreGui'
-  ];
-
-  const lightingProperties = [
-    'Ambient',
-    'Brightness',
-    'ColorShift_Bottom',
-    'ColorShift_Top',
-    'EnvironmentDiffuseScale',
-    'EnvironmentSpecularScale',
-    'ExposureCompensation',
-    'FogColor',
-    'FogEnd',
-    'FogStart',
-    'GeographicLatitude',
-    'GlobalShadows',
-    'OutdoorAmbient',
-    'ShadowSoftness'
-  ];
-
-  const workspaceProperties = [
-    'CurrentCamera',
-    'DistributedGameTime',
-    'FallenPartsDestroyHeight',
-    'Gravity',
-    'StreamingEnabled',
-    'TouchCameraMovementMode'
-  ];
-
-  const playersProperties = [
-    'LocalPlayer',
-    'GetPlayers',
-    'PlayerAdded',
-    'PlayerRemoving'
-  ];
-
-  const replicatedStorageProperties = [
-    'FindFirstChild',
-    'WaitForChild',
-    'GetChildren'
-  ];
-
-  if (textUntilPosition.includes('game.')) {
-    gameChildren.forEach(child => {
-      suggestions.push({
-        label: child,
+    const suggestions = [
+      {
+        label: 'game',
         kind: monaco.languages.CompletionItemKind.Variable,
-        insertText: child,
-        detail: `${child} service`
-      });
+        insertText: 'game',
+        detail: 'The entire game'
+      },
+      {
+        label: 'workspace',
+        kind: monaco.languages.CompletionItemKind.Variable,
+        insertText: 'workspace',
+        detail: 'The workspace'
+      },
+      {
+        label: 'Enum',
+        kind: monaco.languages.CompletionItemKind.Variable,
+        insertText: 'Enum',
+        detail: 'Enums'
+      },
+      {
+        label: 'Color3',
+        kind: monaco.languages.CompletionItemKind.Color,
+        insertText: 'Color3.new(${1:r}, ${2:g}, ${3:b})',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Color3 class for defining colors'
+      },
+      {
+        label: 'Vector3',
+        kind: monaco.languages.CompletionItemKind.Class,
+        insertText: 'Vector3.new(${1:x}, ${2:y}, ${3:z})',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Vector3 class for 3D vectors'
+      },
+      {
+        label: 'Vector2',
+        kind: monaco.languages.CompletionItemKind.Class,
+        insertText: 'Vector2.new(${1:x}, ${2:y})',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Vector2 class for 2D vectors'
+      },
+      {
+        label: 'UDim2',
+        kind: monaco.languages.CompletionItemKind.Class,
+        insertText: 'UDim2.new(${1:xOffset}, ${2:xScale}, ${1:yOffset}, ${2:yScale})',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'UDim2 class for 2D vectors'
+      },
+      {
+        label: 'Instance',
+        kind: monaco.languages.CompletionItemKind.Class,
+        insertText: 'Instance.new("${1:className}")',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Instance class for creating instances'
+      },
+      {
+        label: '_G',
+        kind: monaco.languages.CompletionItemKind.Variable,
+        insertText: '_G',
+        detail: 'Globals'
+      },
+      {
+        label: 'print',
+        kind: monaco.languages.CompletionItemKind.Function,
+        insertText: 'print("${1:text}")',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Print text'
+      },
+      {
+        label: 'error',
+        kind: monaco.languages.CompletionItemKind.Function,
+        insertText: 'error("${1:text}")',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Error text'
+      },
+      {
+        label: 'warn',
+        kind: monaco.languages.CompletionItemKind.Function,
+        insertText: 'warn("${1:text}")',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Warning message'
+      },
+      {
+        label: 'loadstring',
+        kind: monaco.languages.CompletionItemKind.Function,
+        insertText: 'loadstring("${1:text}")()',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Return a function from a string'
+      },
+      {
+        label: 'pcall',
+        kind: monaco.languages.CompletionItemKind.Function,
+        insertText: 'pcall(${1:function})',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Pcall a function'
+      },
+      {
+        label: 'pairs',
+        kind: monaco.languages.CompletionItemKind.Function,
+        insertText: 'pairs(${1:table})',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Loop through table'
+      },
+      {
+        label: 'ipairs',
+        kind: monaco.languages.CompletionItemKind.Function,
+        insertText: 'ipairs(${1:table})',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Loop through table in order'
+      },
+      {
+        label: 'tick',
+        kind: monaco.languages.CompletionItemKind.Function,
+        insertText: 'tick()',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Time since unix epoch'
+      }
+    ];
 
-      if (child === 'Lighting') {
-        lightingProperties.forEach(prop => {
+    const gameChildren = {
+      HttpService: {
+        properties: [],
+        methods: { dot: [], colon: ['GetAsync', 'PostAsync', 'JSONEncode', 'JSONDecode'] }
+      },
+      UserInputService: {
+        properties: ['InputBegan', 'InputEnded'],
+        methods: { dot: ['GetMouseLocation'], colon: [] }
+      },
+      Players: {
+        properties: ['LocalPlayer'],
+        methods: { dot: [], colon: ['GetPlayers', 'PlayerAdded', 'PlayerRemoving'] }
+      },
+      Lighting: {
+        properties: ['Ambient', 'Brightness', 'ColorShift_Bottom', 'ColorShift_Top', 'EnvironmentDiffuseScale', 'EnvironmentSpecularScale', 'ExposureCompensation', 'FogColor', 'FogEnd', 'FogStart', 'GeographicLatitude', 'GlobalShadows', 'OutdoorAmbient', 'ShadowSoftness'],
+        methods: { dot: [], colon: [] }
+      },
+      ReplicatedStorage: {
+        properties: [],
+        methods: { dot: [], colon: ['FindFirstChild', 'WaitForChild', 'GetChildren'] }
+      },
+      Workspace: {
+        properties: ['CurrentCamera', 'DistributedGameTime', 'FallenPartsDestroyHeight', 'Gravity', 'StreamingEnabled', 'TouchCameraMovementMode'],
+        methods: { dot: [], colon: [] }
+      },
+      RunService: {
+        properties: ['Stepped', 'Heartbeat', 'RenderStepped'],
+        methods: { dot: [], colon: [] }
+      },
+      TweenService: {
+        properties: [],
+        methods: { dot: [], colon: ['Create'] }
+      },
+      CollectionService: {
+        properties: [],
+        methods: { dot: [], colon: ['GetTagged', 'AddTag', 'RemoveTag'] }
+      },
+      TextService: {
+        properties: [],
+        methods: { dot: [], colon: ['GetTextSize'] }
+      },
+      SoundService: {
+        properties: [],
+        methods: { dot: [], colon: ['PlayLocalSound', 'StopAllSounds'] }
+      },
+      Debris: {
+        properties: [],
+        methods: { dot: [], colon: ['AddItem'] }
+      },
+      PathfindingService: {
+        properties: [],
+        methods: { dot: [], colon: ['CreatePath'] }
+      },
+      TeleportService: {
+        properties: [],
+        methods: { dot: [], colon: ['Teleport'] }
+      },
+      LocalizationService: {
+        properties: [],
+        methods: { dot: [], colon: ['GetTranslatorForPlayerAsync'] }
+      },
+      Teams: {
+        properties: [],
+        methods: { dot: [], colon: ['GetTeams'] }
+      },
+      Stats: {
+        properties: [],
+        methods: { dot: [], colon: ['GetTotalMemoryUsageMb'] }
+      },
+      StarterGui: {
+        properties: [],
+        methods: { dot: [], colon: ['SetCore', 'GetCore'] }
+      },
+      StarterPack: {
+        properties: [],
+        methods: { dot: [], colon: ['GetChildren'] }
+      },
+      StarterPlayer: {
+        properties: [],
+        methods: { dot: [], colon: ['GetChildren'] }
+      },
+      TestService: {
+        properties: [],
+        methods: { dot: [], colon: ['Check'] }
+      },
+      CoreGui: {
+        properties: ['RobloxGui', 'TopbarEnabled'],
+        methods: { dot: [], colon: [] }
+      }
+    };
+
+    const parts = textUntilPosition.split(/[:.]/);
+    if (parts.length === 2 && gameChildren[parts[0]]) {
+      const child = gameChildren[parts[0]];
+      
+      if (textUntilPosition.includes(':')) {
+        child.methods.colon.forEach(method => {
           suggestions.push({
-            label: `Lighting.${prop}`,
+            label: `${parts[0]}:${method}()`,
+            kind: monaco.languages.CompletionItemKind.Method,
+            insertText: `${parts[0]}:${method}()`,
+            insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+            detail: `${method} method of ${parts[0]}`
+          });
+        });
+      } else {
+        child.properties.forEach(prop => {
+          suggestions.push({
+            label: `${parts[0]}.${prop}`,
             kind: monaco.languages.CompletionItemKind.Property,
-            insertText: `Lighting.${prop}`,
-            detail: `${prop} property of Lighting`
+            insertText: `${parts[0]}.${prop}`,
+            detail: `${prop} property of ${parts[0]}`
+          });
+        });
+
+        child.methods.dot.forEach(method => {
+          suggestions.push({
+            label: `${parts[0]}.${method}()`,
+            kind: monaco.languages.CompletionItemKind.Method,
+            insertText: `${parts[0]}.${method}()`,
+            insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+            detail: `${method} method of ${parts[0]}`
           });
         });
       }
+    }
 
-      if (child === 'Workspace') {
-        workspaceProperties.forEach(prop => {
-          suggestions.push({
-            label: `Workspace.${prop}`,
-            kind: monaco.languages.CompletionItemKind.Property,
-            insertText: `Workspace.${prop}`,
-            detail: `${prop} property of Workspace`
-          });
-        });
-      }
-
-      if (child === 'Players') {
-        playersProperties.forEach(prop => {
-          suggestions.push({
-            label: `Players.${prop}`,
-            kind: monaco.languages.CompletionItemKind.Property,
-            insertText: `Players.${prop}`,
-            detail: `${prop} property of Players`
-          });
-        });
-      }
-
-      if (child === 'ReplicatedStorage') {
-        replicatedStorageProperties.forEach(prop => {
-          suggestions.push({
-            label: `ReplicatedStorage.${prop}`,
-            kind: monaco.languages.CompletionItemKind.Property,
-            insertText: `ReplicatedStorage.${prop}`,
-            detail: `${prop} property of ReplicatedStorage`
-          });
-        });
-      }
-    });
+    return { suggestions: suggestions };
   }
-
-  if (textUntilPosition.includes('game:')) {
-    suggestions.push({
-      label: 'HttpGet',
-      kind: monaco.languages.CompletionItemKind.Function,
-      insertText: 'HttpGet("${1:url}")',
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-      detail: 'HTTP requests'
-    });
-    suggestions.push({
-      label: 'GetService',
-      kind: monaco.languages.CompletionItemKind.Function,
-      insertText: 'GetService("${1:service}")',
-      insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-      detail: 'Get a service'
-    });
-  }
-
-  return { suggestions: suggestions };
-}
 });
