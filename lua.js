@@ -402,7 +402,17 @@ monaco.languages.registerCompletionItemProvider('luau', {
     };
 
     const parts = textUntilPosition.split(/[:.]/);
-    if (parts.length === 2 && gameChildren[parts[0]]) {
+    if (parts.length === 1 && gameChildren[parts[0]]) {
+      // Top-level game children suggestions
+      Object.keys(gameChildren).forEach(child => {
+        suggestions.push({
+          label: `game.${child}`,
+          kind: monaco.languages.CompletionItemKind.Variable,
+          insertText: `game.${child}`,
+          detail: `${child} service`
+        });
+      });
+    } else if (parts.length === 2 && gameChildren[parts[0]]) {
       const child = gameChildren[parts[0]];
       
       if (textUntilPosition.includes(':')) {
