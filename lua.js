@@ -292,7 +292,10 @@ monaco.languages.registerCompletionItemProvider('luau', {
         detail: `${child} service`
       });
     });
-      suggestions.push({
+    }
+
+    if (textUntilPosition.includes('game:')) {
+         suggestions.push({
         label: 'HttpGet',
         kind: monaco.languages.CompletionItemKind.Function,
         insertText: 'HttpGet(${1:url})',
