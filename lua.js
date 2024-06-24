@@ -187,7 +187,6 @@ monaco.languages.register({ id: 'luau' });
 monaco.languages.setMonarchTokensProvider('luau', language);
 
 monaco.languages.setLanguageConfiguration('luau', conf);
-
 monaco.languages.registerCompletionItemProvider('luau', {
   provideCompletionItems: (model, position) => {
     const textUntilPosition = model.getValueInRange({
@@ -409,73 +408,51 @@ monaco.languages.registerCompletionItemProvider('luau', {
     const parts = textUntilPosition.split(/[:.]/);
     const lastPart = parts[parts.length - 1];
 
-    switch (lastPart) {
-      case 'game':
-        Object.keys(gameChildren).forEach(child => {
-          suggestions.push({
-            label: `game.${child}`,
-            kind: monaco.languages.CompletionItemKind.Variable,
-            insertText: `game.${child}`,
-            detail: `${child} service`
-          });
+    if (lastPart === 'game') {
+      Object.keys(gameChildren).forEach(child => {
+        suggestions.push({
+          label: `game.${child}`,
+          kind: monaco.languages.CompletionItemKind.Variable,
+          insertText: `game.${child}`,
+          detail: `${child} service`
         });
-        break;
-      case 'HttpService':
-      case 'UserInputService':
-      case 'Players':
-      case 'Lighting':
-      case 'ReplicatedStorage':
-      case 'Workspace':
-      case 'RunService':
-      case 'TweenService':
-      case 'CollectionService':
-      case 'TextService':
-      case 'SoundService':
-      case 'Debris':
-      case 'PathfindingService':
-      case 'TeleportService':
-      case 'LocalizationService':
-      case 'Teams':
-      case 'Stats':
-      case 'StarterGui':
-      case 'StarterPack':
-      case 'StarterPlayer':
-      case 'TestService':
-      case 'CoreGui':
-        const child = gameChildren[lastPart];
-        if (textUntilPosition.includes(':')) {
-          child.methods.colon.forEach(method => {
-            suggestions.push({
-              label: `${lastPart}:${method}()`,
-              kind: monaco.languages.CompletionItemKind.Method,
-              insertText: `${lastPart}:${method}()`,
-              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-              detail: `${method} method of ${lastPart}`
+      });
+    } else {
+      Object.keys(gameChildren).forEach(service => {
+        if (lastPart === service) {
+          const child = gameChildren[service];
+          if (textUntilPosition.includes(':')) {
+            child.methods.colon.forEach(method => {
+              suggestions.push({
+                label: `${service}:${method}()`,
+                kind: monaco.languages.CompletionItemKind.Method,
+                insertText: `${service}:${method}()`,
+                insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+                detail: `${method} method of ${service}`
+              });
             });
-          });
-        } else {
-          child.properties.forEach(prop => {
-            suggestions.push({
-              label: `${lastPart}.${prop}`,
-              kind: monaco.languages.CompletionItemKind.Property,
-              insertText: `${lastPart}.${prop}`,
-              detail: `${prop} property of ${lastPart}`
+          } else {
+            child.properties.forEach(prop => {
+              suggestions.push({
+                label: `${service}.${prop}`,
+                kind: monaco.languages.CompletionItemKind.Property,
+                insertText: `${service}.${prop}`,
+                detail: `${prop} property of ${service}`
+              });
             });
-          });
 
-          child.methods.dot.forEach(method => {
-            suggestions.push({
-              label: `${lastPart}.${method}()`,
-              kind: monaco.languages.CompletionItemKind.Method,
-              insertText: `${lastPart}.${method}()`,
-              insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-              detail: `${method} method of ${lastPart}`
+            child.methods.dot.forEach(method => {
+              suggestions.push({
+                label: `${service}.${method}()`,
+                kind: monaco.languages.CompletionItemKind.Method,
+                insertText: `${service}.${method}()`,
+                insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+                detail: `${method} method of ${service}`
+              });
             });
-          });
+          }
         }
-        break;
-      default:
-        break;
+      });
     }
 
     return { suggestions: suggestions };
