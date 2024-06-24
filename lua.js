@@ -314,170 +314,35 @@ monaco.languages.registerCompletionItemProvider('luau', {
       }
     ];
 
-    const gameServices = [
-      {
-        key: 'HttpService',
-        properties: [],
-        methods: { dot: [], colon: ['GetAsync', 'PostAsync', 'JSONEncode', 'JSONDecode'] }
-      },
-      {
-        key: 'UserInputService',
-        properties: ['InputBegan', 'InputEnded'],
-        methods: { dot: ['GetMouseLocation'], colon: [] }
-      },
-      {
-        key: 'Players',
-        properties: ['LocalPlayer'],
-        methods: { dot: [], colon: ['GetPlayers', 'PlayerAdded', 'PlayerRemoving'] }
-      },
-      {
-        key: 'Lighting',
-        properties: ['Ambient', 'Brightness', 'ColorShift_Bottom', 'ColorShift_Top', 'EnvironmentDiffuseScale', 'EnvironmentSpecularScale', 'ExposureCompensation', 'FogColor', 'FogEnd', 'FogStart', 'GeographicLatitude', 'GlobalShadows', 'OutdoorAmbient', 'ShadowSoftness'],
-        methods: { dot: [], colon: [] }
-      },
-      {
-        key: 'ReplicatedStorage',
-        properties: [],
-        methods: { dot: [], colon: ['FindFirstChild', 'WaitForChild', 'GetChildren'] }
-      },
-      {
-        key: 'Workspace',
-        properties: ['CurrentCamera', 'DistributedGameTime', 'FallenPartsDestroyHeight', 'Gravity', 'StreamingEnabled', 'TouchCameraMovementMode'],
-        methods: { dot: [], colon: [] }
-      },
-      {
-        key: 'RunService',
-        properties: ['Stepped', 'Heartbeat', 'RenderStepped'],
-        methods: { dot: [], colon: [] }
-      },
-      {
-        key: 'TweenService',
-        properties: [],
-        methods: { dot: [], colon: ['Create'] }
-      },
-      {
-        key: 'CollectionService',
-        properties: [],
-        methods: { dot: [], colon: ['GetTagged', 'AddTag', 'RemoveTag'] }
-      },
-      {
-        key: 'TextService',
-        properties: [],
-        methods: { dot: [], colon: ['GetTextSize'] }
-      },
-      {
-        key: 'SoundService',
-        properties: [],
-        methods: { dot: [], colon: ['PlayLocalSound', 'StopAllSounds'] }
-      },
-      {
-        key: 'Debris',
-        properties: [],
-        methods: { dot: [], colon: ['AddItem'] }
-      },
-      {
-        key: 'PathfindingService',
-        properties: [],
-        methods: { dot: [], colon: ['CreatePath'] }
-      },
-      {
-        key: 'TeleportService',
-        properties: [],
-        methods: { dot: [], colon: ['Teleport'] }
-      },
-      {
-        key: 'LocalizationService',
-        properties: [],
-        methods: { dot: [], colon: ['GetTranslatorForPlayerAsync'] }
-      },
-      {
-        key: 'Teams',
-        properties: [],
-        methods: { dot: [], colon: ['GetTeams'] }
-      },
-      {
-        key: 'Stats',
-        properties: [],
-        methods: { dot: [], colon: ['GetTotalMemoryUsageMb'] }
-      },
-      {
-        key: 'StarterGui',
-        properties: [],
-        methods: { dot: [], colon: ['SetCore', 'GetCore'] }
-      },
-      {
-        key: 'StarterPack',
-        properties: [],
-        methods: { dot: [], colon: ['GetChildren'] }
-      },
-      {
-        key: 'StarterPlayer',
-        properties: [],
-        methods: { dot: [], colon: ['GetChildren'] }
-      },
-      {
-        key: 'TestService',
-        properties: [],
-        methods: { dot: [], colon: ['Check'] }
-      },
-      {
-        key: 'CoreGui',
-        properties: ['RobloxGui', 'TopbarEnabled'],
-        methods: { dot: [], colon: [] }
-      }
-    ];
-
-    const parts = textUntilPosition.split(/[:.]/);
-    const lastPart = parts[parts.length - 1];
-
-    if (lastPart === 'game') {
-      gameServices.forEach(service => {
-        suggestions.push({
-          label: `game.${service.key}`,
-          kind: monaco.languages.CompletionItemKind.Variable,
-          insertText: `game.${service.key}`,
-          detail: `${service.key} service`
-        });
+    if (textUntilPosition.includes('game.')) {
+         // Add suggestions for properties and services under game
+    gameChildren.forEach(child => {
+      suggestions.push({
+        label: child,
+        kind: monaco.languages.CompletionItemKind.Variable,
+        insertText: child,
+        detail: ${child} service
       });
-    } else {
-      gameServices.forEach(service => {
-        if (lastPart === service.key) {
-          if (textUntilPosition.includes(':')) {
-            service.methods.colon.forEach(method => {
-              suggestions.push({
-                label: `${service.key}:${method}()`,
-                kind: monaco.languages.CompletionItemKind.Method,
-                insertText: `${service.key}:${method}()`,
-                insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-                detail: `${method} method of ${service.key}`
-              });
-            });
-          } else {
-            service.properties.forEach(prop => {
-              suggestions.push({
-                label: `${service.key}.${prop}`,
-                kind: monaco.languages.CompletionItemKind.Property,
-                insertText: `${service.key}.${prop}`,
-                detail: `${prop} property of ${service.key}`
-              });
-            });
+    });
+    }
 
-            service.methods.dot.forEach(method => {
-              suggestions.push({
-                label: `${service.key}.${method}()`,
-                kind: monaco.languages.CompletionItemKind.Method,
-                insertText: `${service.key}.${method}()`,
-                insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-                detail: `${method} method of ${service.key}`
-              });
-            });
-          }
-        }
+    if (textUntilPosition.includes('game:')) {
+         suggestions.push({
+        label: 'HttpGet',
+        kind: monaco.languages.CompletionItemKind.Function,
+        insertText: 'HttpGet("${1:url}")',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'HTTP requests'
+      });
+    suggestions.push({
+        label: 'GetService',
+        kind: monaco.languages.CompletionItemKind.Function,
+        insertText: 'GetService("${1:service}")',
+        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+        detail: 'Get a service'
       });
     }
 
     return { suggestions: suggestions };
   }
 });
-
-
