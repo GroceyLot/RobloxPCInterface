@@ -266,7 +266,7 @@ monaco.languages.registerCompletionItemProvider('luau', {
       {
         label: 'pcall',
         kind: monaco.languages.CompletionItemKind.Function,
-        insertText: 'pcall("${1:function}")',
+        insertText: 'pcall(${1:function})',
         insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
         detail: 'Pcall a function'
       }
@@ -298,7 +298,7 @@ monaco.languages.registerCompletionItemProvider('luau', {
          suggestions.push({
         label: 'HttpGet',
         kind: monaco.languages.CompletionItemKind.Function,
-        insertText: 'HttpGet(${1:url})',
+        insertText: 'HttpGet("${1:url}")',
         insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
         detail: 'HTTP requests'
       });
