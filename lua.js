@@ -314,140 +314,161 @@ monaco.languages.registerCompletionItemProvider('luau', {
       }
     ];
 
-    const gameChildren = {
-      HttpService: {
+    const gameServices = [
+      {
+        key: 'HttpService',
         properties: [],
         methods: { dot: [], colon: ['GetAsync', 'PostAsync', 'JSONEncode', 'JSONDecode'] }
       },
-      UserInputService: {
+      {
+        key: 'UserInputService',
         properties: ['InputBegan', 'InputEnded'],
         methods: { dot: ['GetMouseLocation'], colon: [] }
       },
-      Players: {
+      {
+        key: 'Players',
         properties: ['LocalPlayer'],
         methods: { dot: [], colon: ['GetPlayers', 'PlayerAdded', 'PlayerRemoving'] }
       },
-      Lighting: {
+      {
+        key: 'Lighting',
         properties: ['Ambient', 'Brightness', 'ColorShift_Bottom', 'ColorShift_Top', 'EnvironmentDiffuseScale', 'EnvironmentSpecularScale', 'ExposureCompensation', 'FogColor', 'FogEnd', 'FogStart', 'GeographicLatitude', 'GlobalShadows', 'OutdoorAmbient', 'ShadowSoftness'],
         methods: { dot: [], colon: [] }
       },
-      ReplicatedStorage: {
+      {
+        key: 'ReplicatedStorage',
         properties: [],
         methods: { dot: [], colon: ['FindFirstChild', 'WaitForChild', 'GetChildren'] }
       },
-      Workspace: {
+      {
+        key: 'Workspace',
         properties: ['CurrentCamera', 'DistributedGameTime', 'FallenPartsDestroyHeight', 'Gravity', 'StreamingEnabled', 'TouchCameraMovementMode'],
         methods: { dot: [], colon: [] }
       },
-      RunService: {
+      {
+        key: 'RunService',
         properties: ['Stepped', 'Heartbeat', 'RenderStepped'],
         methods: { dot: [], colon: [] }
       },
-      TweenService: {
+      {
+        key: 'TweenService',
         properties: [],
         methods: { dot: [], colon: ['Create'] }
       },
-      CollectionService: {
+      {
+        key: 'CollectionService',
         properties: [],
         methods: { dot: [], colon: ['GetTagged', 'AddTag', 'RemoveTag'] }
       },
-      TextService: {
+      {
+        key: 'TextService',
         properties: [],
         methods: { dot: [], colon: ['GetTextSize'] }
       },
-      SoundService: {
+      {
+        key: 'SoundService',
         properties: [],
         methods: { dot: [], colon: ['PlayLocalSound', 'StopAllSounds'] }
       },
-      Debris: {
+      {
+        key: 'Debris',
         properties: [],
         methods: { dot: [], colon: ['AddItem'] }
       },
-      PathfindingService: {
+      {
+        key: 'PathfindingService',
         properties: [],
         methods: { dot: [], colon: ['CreatePath'] }
       },
-      TeleportService: {
+      {
+        key: 'TeleportService',
         properties: [],
         methods: { dot: [], colon: ['Teleport'] }
       },
-      LocalizationService: {
+      {
+        key: 'LocalizationService',
         properties: [],
         methods: { dot: [], colon: ['GetTranslatorForPlayerAsync'] }
       },
-      Teams: {
+      {
+        key: 'Teams',
         properties: [],
         methods: { dot: [], colon: ['GetTeams'] }
       },
-      Stats: {
+      {
+        key: 'Stats',
         properties: [],
         methods: { dot: [], colon: ['GetTotalMemoryUsageMb'] }
       },
-      StarterGui: {
+      {
+        key: 'StarterGui',
         properties: [],
         methods: { dot: [], colon: ['SetCore', 'GetCore'] }
       },
-      StarterPack: {
+      {
+        key: 'StarterPack',
         properties: [],
         methods: { dot: [], colon: ['GetChildren'] }
       },
-      StarterPlayer: {
+      {
+        key: 'StarterPlayer',
         properties: [],
         methods: { dot: [], colon: ['GetChildren'] }
       },
-      TestService: {
+      {
+        key: 'TestService',
         properties: [],
         methods: { dot: [], colon: ['Check'] }
       },
-      CoreGui: {
+      {
+        key: 'CoreGui',
         properties: ['RobloxGui', 'TopbarEnabled'],
         methods: { dot: [], colon: [] }
       }
-    };
+    ];
 
     const parts = textUntilPosition.split(/[:.]/);
     const lastPart = parts[parts.length - 1];
 
     if (lastPart === 'game') {
-      Object.keys(gameChildren).forEach(child => {
+      gameServices.forEach(service => {
         suggestions.push({
-          label: `game.${child}`,
+          label: `game.${service.key}`,
           kind: monaco.languages.CompletionItemKind.Variable,
-          insertText: `game.${child}`,
-          detail: `${child} service`
+          insertText: `game.${service.key}`,
+          detail: `${service.key} service`
         });
       });
     } else {
-      Object.keys(gameChildren).forEach(service => {
-        if (lastPart === service) {
-          const child = gameChildren[service];
+      gameServices.forEach(service => {
+        if (lastPart === service.key) {
           if (textUntilPosition.includes(':')) {
-            child.methods.colon.forEach(method => {
+            service.methods.colon.forEach(method => {
               suggestions.push({
-                label: `${service}:${method}()`,
+                label: `${service.key}:${method}()`,
                 kind: monaco.languages.CompletionItemKind.Method,
-                insertText: `${service}:${method}()`,
+                insertText: `${service.key}:${method}()`,
                 insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-                detail: `${method} method of ${service}`
+                detail: `${method} method of ${service.key}`
               });
             });
           } else {
-            child.properties.forEach(prop => {
+            service.properties.forEach(prop => {
               suggestions.push({
-                label: `${service}.${prop}`,
+                label: `${service.key}.${prop}`,
                 kind: monaco.languages.CompletionItemKind.Property,
-                insertText: `${service}.${prop}`,
-                detail: `${prop} property of ${service}`
+                insertText: `${service.key}.${prop}`,
+                detail: `${prop} property of ${service.key}`
               });
             });
 
-            child.methods.dot.forEach(method => {
+            service.methods.dot.forEach(method => {
               suggestions.push({
-                label: `${service}.${method}()`,
+                label: `${service.key}.${method}()`,
                 kind: monaco.languages.CompletionItemKind.Method,
-                insertText: `${service}.${method}()`,
+                insertText: `${service.key}.${method}()`,
                 insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-                detail: `${method} method of ${service}`
+                detail: `${method} method of ${service.key}`
               });
             });
           }
@@ -458,4 +479,5 @@ monaco.languages.registerCompletionItemProvider('luau', {
     return { suggestions: suggestions };
   }
 });
+
 
