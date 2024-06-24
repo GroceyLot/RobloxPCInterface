@@ -305,7 +305,7 @@ monaco.languages.registerCompletionItemProvider('luau', {
     suggestions.push({
         label: 'GetService',
         kind: monaco.languages.CompletionItemKind.Function,
-        insertText: 'GetService(${1:service})',
+        insertText: 'GetService("${1:service}")',
         insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
         detail: 'Get a service'
       });
