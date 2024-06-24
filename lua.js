@@ -317,10 +317,6 @@ monaco.editor.defineTheme('mainTheme', {
   base: 'vs-dark',
   inherit: true,
   rules: [
-    { token: 'global', foreground: 'FFA500' }, // Existing rule for globals
-    { token: 'keyword', foreground: '569CD6' }, // Keywords in blue
-    { token: 'string', foreground: 'D69D85' },  // Strings in light brown
-    { token: 'number', foreground: 'B5CEA8' },  // Numbers in light green
-    { token: 'comment', foreground: '6A9955' }  // Comments in green
+    { token: 'global', foreground: 'FFA500' }
   ]
 });
