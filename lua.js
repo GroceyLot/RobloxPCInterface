@@ -311,12 +311,3 @@ monaco.languages.registerCompletionItemProvider('luau', {
     return { suggestions: suggestions };
   }
 });
-
-// Update the theme to include additional token color configurations
-monaco.editor.defineTheme('mainTheme', {
-  base: 'vs-dark',
-  inherit: true,
-  rules: [
-    { token: 'global', foreground: 'FFA500' }
-  ]
-});
