@@ -330,40 +330,41 @@ monaco.languages.registerCompletionItemProvider('luau', {
       });
     });
 
-    // Split text until position into words including dots and colons, keeping delimiters
-    const tokens = textUntilPosition.split(/(?=\s|\.|:)/).filter(token => token.trim().length > 0);
-    const lastToken = tokens.pop().trim();
+   // Split text until position into words including dots and colons, keeping delimiters
+const tokens = textUntilPosition.split(/(?=[.\s:])/).filter(token => token.trim().length > 0);
+const lastToken = tokens.pop();
 
-    console.log(tokens)
+console.log(tokens)
 
-    if (lastToken.startsWith('game.')) {
-      const gameChildren = ["Players", "Lighting", "ReplicatedStorage", "ServerStorage"];
-      gameChildren.forEach(child => {
-        suggestions.push({
-          label: child,
-          kind: monaco.languages.CompletionItemKind.Variable,
-          insertText: child,
-          detail: `${child} service`
-        });
-      });
-    }
+if (lastToken === 'game.') {
+  const gameChildren = ["Players", "Lighting", "ReplicatedStorage", "ServerStorage"];
+  gameChildren.forEach(child => {
+    suggestions.push({
+      label: child,
+      kind: monaco.languages.CompletionItemKind.Variable,
+      insertText: child,
+      detail: `${child} service`
+    });
+  });
+}
 
-    if (lastToken.startsWith('game:')) {
-      suggestions.push({
-        label: 'HttpGet',
-        kind: monaco.languages.CompletionItemKind.Function,
-        insertText: 'HttpGet("${1:url}")',
-        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-        detail: 'HTTP requests'
-      });
-      suggestions.push({
-        label: 'GetService',
-        kind: monaco.languages.CompletionItemKind.Function,
-        insertText: 'GetService("${1:service}")',
-        insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-        detail: 'Get a service'
-      });
-    }
+if (lastToken === 'game:') {
+  suggestions.push({
+    label: 'HttpGet',
+    kind: monaco.languages.CompletionItemKind.Function,
+    insertText: 'HttpGet("${1:url}")',
+    insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+    detail: 'HTTP requests'
+  });
+  suggestions.push({
+    label: 'GetService',
+    kind: monaco.languages.CompletionItemKind.Function,
+    insertText: 'GetService("${1:service}")',
+    insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+    detail: 'Get a service'
+  });
+}
+
 
     return { suggestions: suggestions };
   }
