@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -55,6 +54,17 @@
         <button id="execute">Execute</button>
         <p id="server-info"></p>
     </div>
-    <script src="https://github.com/GroceyLot/RobloxPCInterface/raw/Things/script.js"></script>
+    <script>
+        // Load the script from GitHub
+        fetch('https://raw.githubusercontent.com/GroceyLot/RobloxPCInterface/Things/script.js')
+            .then(response => response.text())
+            .then(script => {
+                const scriptElement = document.createElement('script');
+                scriptElement.type = 'text/javascript';
+                scriptElement.text = script;
+                document.body.appendChild(scriptElement);
+            })
+            .catch(error => console.error('Error loading script:', error));
+    </script>
 </body>
 </html>
