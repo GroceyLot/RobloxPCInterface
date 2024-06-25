@@ -176,7 +176,6 @@ monaco.languages.register({ id: 'luau' });
 monaco.languages.setMonarchTokensProvider('luau', language);
 
 monaco.languages.setLanguageConfiguration('luau', conf);
-
 monaco.languages.registerCompletionItemProvider('luau', {
   provideCompletionItems: (model, position) => {
     const textUntilPosition = model.getValueInRange({
@@ -200,8 +199,9 @@ monaco.languages.registerCompletionItemProvider('luau', {
 
     const allReserved = new Set([...keywords, ...globals]);
 
+    const currentToken = model.getWordUntilPosition(position).word;
     const variableMatches = textUntilPosition.match(/\b[a-zA-Z_]\w*\b/g);
-    const uniqueVariables = [...new Set(variableMatches)].filter(v => !allReserved.has(v));
+    const uniqueVariables = [...new Set(variableMatches)].filter(v => !allReserved.has(v) && v !== currentToken);
 
     const suggestions = [
       {
