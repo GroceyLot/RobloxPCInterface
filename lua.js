@@ -330,11 +330,11 @@ monaco.languages.registerCompletionItemProvider('luau', {
       });
     });
 
-    const lastWord = textUntilPosition.split(/[\s.]+/).pop();
+    // Split text until position into words including dots and colons
+    const tokens = textUntilPosition.split(/(?=[.:\s])/).filter(token => token.trim().length > 0);
+    const lastToken = tokens[tokens.length - 1];
 
-    console.log(lastWord)
-
-    if (lastWord === 'game.') {
+    if (lastToken.startsWith('game.')) {
       const gameChildren = ["Players", "Lighting", "ReplicatedStorage", "ServerStorage"];
       gameChildren.forEach(child => {
         suggestions.push({
@@ -346,7 +346,7 @@ monaco.languages.registerCompletionItemProvider('luau', {
       });
     }
 
-    if (lastWord === 'game:') {
+    if (lastToken.startsWith('game:')) {
       suggestions.push({
         label: 'HttpGet',
         kind: monaco.languages.CompletionItemKind.Function,
@@ -366,5 +366,6 @@ monaco.languages.registerCompletionItemProvider('luau', {
     return { suggestions: suggestions };
   }
 });
+
 
 
