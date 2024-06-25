@@ -334,6 +334,9 @@ monaco.languages.registerCompletionItemProvider('luau', {
     const tokens = textUntilPosition.split(/(?=[.:\s])/).filter(token => token.trim().length > 0);
     const lastToken = tokens[tokens.length - 1];
 
+    console.log(tokens)
+    console.log(lastToken)
+
     if (lastToken.startsWith('game.')) {
       const gameChildren = ["Players", "Lighting", "ReplicatedStorage", "ServerStorage"];
       gameChildren.forEach(child => {
