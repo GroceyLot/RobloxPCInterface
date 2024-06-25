@@ -1,185 +1,174 @@
+var conf = {
+  comments: {
+    lineComment: "--",
+    blockComment: ["--[[", "]]"]
+  },
+  brackets: [
+    ["{", "}"],
+    ["[", "]"],
+    ["(", ")"]
+  ],
+  autoClosingPairs: [
+    { open: "{", close: "}" },
+    { open: "[", close: "]" },
+    { open: "(", close: ")" },
+    { open: '"', close: '"' },
+    { open: "'", close: "'" }
+  ],
+  surroundingPairs: [
+    { open: "{", close: "}" },
+    { open: "[", close: "]" },
+    { open: "(", close: ")" },
+    { open: '"', close: '"' },
+    { open: "'", close: "'" }
+  ]
+};
 
-    var conf = {
-      comments: {
-        lineComment: "--",
-        blockComment: ["--[[", "]]"]
-      },
-      brackets: [
-        ["{", "}"],
-        ["[", "]"],
-        ["(", ")"]
+var language = {
+  defaultToken: "",
+  tokenPostfix: ".lua",
+  keywords: [
+    "and",
+    "break",
+    "do",
+    "else",
+    "elseif",
+    "end",
+    "false",
+    "for",
+    "function",
+    "goto",
+    "if",
+    "in",
+    "local",
+    "nil",
+    "not",
+    "or",
+    "repeat",
+    "return",
+    "then",
+    "true",
+    "until",
+    "while",
+    "type",
+    "continue"
+  ],
+  globals: [
+    "game",
+    "workspace",
+    "Color3",
+    "Vector3",
+    "Instance",
+    "pcall",
+    "print",
+    "UDim2",
+    "Vector2",
+    "loadstring",
+    "Enum",
+    "tick",
+    "error",
+    "warn",
+    "pairs",
+    "ipairs",
+    "_G"
+  ],
+  brackets: [
+    { token: "delimiter.bracket", open: "{", close: "}" },
+    { token: "delimiter.array", open: "[", close: "]" },
+    { token: "delimiter.parenthesis", open: "(", close: ")" }
+  ],
+  operators: [
+    "+",
+    "-",
+    "*",
+    "/",
+    "%",
+    "^",
+    "#",
+    "==",
+    "~=",
+    "<=",
+    ">=",
+    "<",
+    ">",
+    "=",
+    ";",
+    ":",
+    ",",
+    ".",
+    "..",
+    "..."
+  ],
+  symbols: /[=><!~?:&|+\-*\/\^%]+/,
+  escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+  tokenizer: {
+    root: [
+      [
+        /[a-zA-Z_]\w*/,
+        {
+          cases: {
+            "@keywords": { token: "keyword.$0" },
+            "@globals": { token: "global" },
+            "@default": "identifier"
+          }
+        }
       ],
-      autoClosingPairs: [
-        { open: "{", close: "}" },
-        { open: "[", close: "]" },
-        { open: "(", close: ")" },
-        { open: '"', close: '"' },
-        { open: "'", close: "'" }
+      { include: "@whitespace" },
+      [/(,)(\s*)([a-zA-Z_]\w*)(\s*)(:)(?!:)/, ["delimiter", "", "key", "", "delimiter"]],
+      [/({)(\s*)([a-zA-Z_]\w*)(\s*)(:)(?!:)/, ["@brackets", "", "key", "", "delimiter"]],
+      [/[{}()\[\]]/, "@brackets"],
+      [
+        /@symbols/,
+        {
+          cases: {
+            "@operators": "delimiter",
+            "@default": ""
+          }
+        }
       ],
-      surroundingPairs: [
-        { open: "{", close: "}" },
-        { open: "[", close: "]" },
-        { open: "(", close: ")" },
-        { open: '"', close: '"' },
-        { open: "'", close: "'" }
+      [/\d*\.\d+([eE][\-+]?\d+)?/, "number.float"],
+      [/0[xX][0-9a-fA-F_]*[0-9a-fA-F]/, "number.hex"],
+      [/\d+?/, "number"],
+      [/[;,.]/, "delimiter"],
+      [/"([^"\\]|\\.)*$/, "string.invalid"],
+      [/'([^'\\]|\\.)*$/, "string.invalid"],
+      [/"/, "string", '@string."'],
+      [/'/, "string", "@string.'"]
+    ],
+    whitespace: [
+      [/[ \t\r\n]+/, ""],
+      [/--\[([=]*)\[/, "comment", "@comment.$1"],
+      [/--.*$/, "comment"]
+    ],
+    comment: [
+      [/[^\]]+/, "comment"],
+      [
+        /\]([=]*)\]/,
+        {
+          cases: {
+            "$1==$S2": { token: "comment", next: "@pop" },
+            "@default": "comment"
+          }
+        }
+      ],
+      [/./, "comment"]
+    ],
+    string: [
+      [/[^\\"']+/, "string"],
+      [/@escapes/, "string.escape"],
+      [/\\./, "string.escape.invalid"],
+      [
+        /["']/,
+        {
+          cases: {
+            "$#==$S2": { token: "string", next: "@pop" },
+            "@default": "string"
+          }
+        }
       ]
-    };
-    var language = {
-      defaultToken: "",
-      tokenPostfix: ".lua",
-      keywords: [
-        "and",
-        "break",
-        "do",
-        "else",
-        "elseif",
-        "end",
-        "false",
-        "for",
-        "function",
-        "goto",
-        "if",
-        "in",
-        "local",
-        "nil",
-        "not",
-        "or",
-        "repeat",
-        "return",
-        "then",
-        "true",
-        "until",
-        "while",
-        "type",
-        "continue"
-      ],
-      globals: [
-        "game",
-        "workspace",
-        "Color3",
-        "Vector3",
-        "Instance",
-        "pcall",
-        "print",
-        "UDim2",
-        "Vector2",
-        "loadstring",
-        "Enum",
-        "tick",
-        "error",
-        "warn",
-        "pairs",
-        "ipairs",
-        "_G"
-      ],
-      brackets: [
-        { token: "delimiter.bracket", open: "{", close: "}" },
-        { token: "delimiter.array", open: "[", close: "]" },
-        { token: "delimiter.parenthesis", open: "(", close: ")" }
-      ],
-      operators: [
-        "+",
-        "-",
-        "*",
-        "/",
-        "%",
-        "^",
-        "#",
-        "==",
-        "~=",
-        "<=",
-        ">=",
-        "<",
-        ">",
-        "=",
-        ";",
-        ":",
-        ",",
-        ".",
-        "..",
-        "..."
-      ],
-      // we include these common regular expressions
-      symbols: /[=><!~?:&|+\-*\/\^%]+/,
-      escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
-      // The main tokenizer for our languages
-      tokenizer: {
-        root: [
-          // identifiers and keywords
-          [
-            /[a-zA-Z_]\w*/,
-            {
-              cases: {
-                "@keywords": { token: "keyword.$0" },
-                "@globals": { token: "global" },
-                "@default": "identifier"
-              }
-            }
-          ],
-          // whitespace
-          { include: "@whitespace" },
-          // keys
-          [/(,)(\s*)([a-zA-Z_]\w*)(\s*)(:)(?!:)/, ["delimiter", "", "key", "", "delimiter"]],
-          [/({)(\s*)([a-zA-Z_]\w*)(\s*)(:)(?!:)/, ["@brackets", "", "key", "", "delimiter"]],
-          // delimiters and operators
-          [/[{}()\[\]]/, "@brackets"],
-          [
-            /@symbols/,
-            {
-              cases: {
-                "@operators": "delimiter",
-                "@default": ""
-              }
-            }
-          ],
-          // numbers
-          [/\d*\.\d+([eE][\-+]?\d+)?/, "number.float"],
-          [/0[xX][0-9a-fA-F_]*[0-9a-fA-F]/, "number.hex"],
-          [/\d+?/, "number"],
-          // delimiter: after number because of .\d floats
-          [/[;,.]/, "delimiter"],
-          // strings: recover on non-terminated strings
-          [/"([^"\\]|\\.)*$/, "string.invalid"],
-          // non-teminated string
-          [/'([^'\\]|\\.)*$/, "string.invalid"],
-          // non-teminated string
-          [/"/, "string", '@string."'],
-          [/'/, "string", "@string.'"]
-        ],
-        whitespace: [
-          [/[ \t\r\n]+/, ""],
-          [/--\[([=]*)\[/, "comment", "@comment.$1"],
-          [/--.*$/, "comment"]
-        ],
-        comment: [
-          [/[^\]]+/, "comment"],
-          [
-            /\]([=]*)\]/,
-            {
-              cases: {
-                "$1==$S2": { token: "comment", next: "@pop" },
-                "@default": "comment"
-              }
-            }
-          ],
-          [/./, "comment"]
-        ],
-        string: [
-          [/[^\\"']+/, "string"],
-          [/@escapes/, "string.escape"],
-          [/\\./, "string.escape.invalid"],
-          [
-            /["']/,
-            {
-              cases: {
-                "$#==$S2": { token: "string", next: "@pop" },
-                "@default": "string"
-              }
-            }
-          ]
-        ]
-      }
-    };
+    ]
+  }
+};
 
 // Register the Lua language configuration and tokenizer
 monaco.languages.register({ id: 'luau' });
@@ -187,6 +176,7 @@ monaco.languages.register({ id: 'luau' });
 monaco.languages.setMonarchTokensProvider('luau', language);
 
 monaco.languages.setLanguageConfiguration('luau', conf);
+
 monaco.languages.registerCompletionItemProvider('luau', {
   provideCompletionItems: (model, position) => {
     const textUntilPosition = model.getValueInRange({
@@ -239,7 +229,7 @@ monaco.languages.registerCompletionItemProvider('luau', {
       {
         label: 'UDim2',
         kind: monaco.languages.CompletionItemKind.Class,
-        insertText: 'UDim2.new(${1:xOffset}, ${2:xScale}, ${1:yOffset}, ${2:yScale})',
+        insertText: 'UDim2.new(${1:xOffset}, ${2:xScale}, ${3:yOffset}, ${4:yScale})',
         insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
         detail: 'UDim2 class for 2D vectors'
       },
@@ -315,26 +305,27 @@ monaco.languages.registerCompletionItemProvider('luau', {
     ];
 
     if (textUntilPosition.includes('game.')) {
-         // Add suggestions for properties and services under game
-    gameChildren.forEach(child => {
-      suggestions.push({
-        label: child,
-        kind: monaco.languages.CompletionItemKind.Variable,
-        insertText: child,
-        detail: ${child} service
+      // Add suggestions for properties and services under game
+      const gameChildren = ["Players", "Lighting", "ReplicatedStorage", "ServerStorage"]; // Add your game services here
+      gameChildren.forEach(child => {
+        suggestions.push({
+          label: child,
+          kind: monaco.languages.CompletionItemKind.Variable,
+          insertText: child,
+          detail: `${child} service`
+        });
       });
-    });
     }
 
     if (textUntilPosition.includes('game:')) {
-         suggestions.push({
+      suggestions.push({
         label: 'HttpGet',
         kind: monaco.languages.CompletionItemKind.Function,
         insertText: 'HttpGet("${1:url}")',
         insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
         detail: 'HTTP requests'
       });
-    suggestions.push({
+      suggestions.push({
         label: 'GetService',
         kind: monaco.languages.CompletionItemKind.Function,
         insertText: 'GetService("${1:service}")',
