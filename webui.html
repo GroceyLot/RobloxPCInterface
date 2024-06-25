@@ -55,6 +55,7 @@
         <button id="execute">Execute</button>
         <p id="server-info"></p>
     </div>
+    <script src="/luajs"></script>
     <script>
         require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs' } });
 
@@ -67,27 +68,11 @@
         `], { type: 'text/javascript' }));
 
         require(['vs/editor/editor.main'], function () {
-            const cacheBuster = new Date().getTime();
-            const url = `https://raw.githubusercontent.com/GroceyLot/RobloxPCInterface/Things/lua.js?cache=${cacheBuster}`;
-
-            fetch(url)
-                .then(response => response.text())
-                .then(luaLanguageDef => {
-                    try {
-                        eval(luaLanguageDef);
-
-                        window.editor = monaco.editor.create(document.getElementById('editor'), {
-                            value: '-- Code',
-                            language: 'luau',
-                            theme: 'vs-dark',
-                            automaticLayout: true
-                        });
-                    } catch (e) {
-                        console.error('Error evaluating luaLanguageDef:', e);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching luaLanguageDef:', error);
+                window.editor = monaco.editor.create(document.getElementById('editor'), {
+                     value: '-- Code',
+                     language: 'luau',
+                     theme: 'vs-dark',
+                     automaticLayout: true
                 });
         });
 
