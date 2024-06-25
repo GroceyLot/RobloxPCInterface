@@ -66,22 +66,20 @@
             importScripts('https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/base/worker/workerMain.js');
         `], { type: 'text/javascript' }));
 
-        // Fetch and eval luajs script
-        fetch('/luajs')
+        require(['vs/editor/editor.main'], function () {
+            fetch('/luajs')
             .then(response => response.text())
             .then(scriptText => {
                 eval(scriptText);
+                window.editor = monaco.editor.create(document.getElementById('editor'), {
+                    value: '-- Code',
+                    language: 'luau',
+                    theme: 'vs-dark',
+                    automaticLayout: true
+                });
             })
             .catch(error => {
                 console.error('Error fetching luajs:', error);
-            });
-
-        require(['vs/editor/editor.main'], function () {
-            window.editor = monaco.editor.create(document.getElementById('editor'), {
-                value: '-- Code',
-                language: 'luau',
-                theme: 'vs-dark',
-                automaticLayout: true
             });
         });
 
