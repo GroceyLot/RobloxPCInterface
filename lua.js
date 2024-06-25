@@ -176,6 +176,7 @@ monaco.languages.register({ id: 'luau' });
 monaco.languages.setMonarchTokensProvider('luau', language);
 
 monaco.languages.setLanguageConfiguration('luau', conf);
+
 monaco.languages.registerCompletionItemProvider('luau', {
   provideCompletionItems: (model, position) => {
     const textUntilPosition = model.getValueInRange({
@@ -185,9 +186,22 @@ monaco.languages.registerCompletionItemProvider('luau', {
       endColumn: position.column
     });
 
-    // Extract all variable names from the text until the current position
+    const keywords = [
+      "and", "break", "do", "else", "elseif", "end", "false", "for", 
+      "function", "goto", "if", "in", "local", "nil", "not", "or", 
+      "repeat", "return", "then", "true", "until", "while", "type", "continue"
+    ];
+
+    const globals = [
+      "game", "workspace", "Color3", "Vector3", "Instance", "pcall", 
+      "print", "UDim2", "Vector2", "loadstring", "Enum", "tick", "error", 
+      "warn", "pairs", "ipairs", "_G"
+    ];
+
+    const allReserved = new Set([...keywords, ...globals]);
+
     const variableMatches = textUntilPosition.match(/\b[a-zA-Z_]\w*\b/g);
-    const uniqueVariables = [...new Set(variableMatches)];
+    const uniqueVariables = [...new Set(variableMatches)].filter(v => !allReserved.has(v));
 
     const suggestions = [
       {
@@ -348,3 +362,4 @@ monaco.languages.registerCompletionItemProvider('luau', {
     return { suggestions: suggestions };
   }
 });
+
