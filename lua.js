@@ -334,6 +334,8 @@ monaco.languages.registerCompletionItemProvider('luau', {
 const tokens = textUntilPosition.match(/[^\s]+/g);
 const lastToken = tokens ? tokens[tokens.length - 1] : '';
 
+print(tokens)
+
 if (lastToken.endsWith('.')) {
   const baseToken = lastToken.slice(0, -1);
   if (baseToken === 'game') {
