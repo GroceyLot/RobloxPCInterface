@@ -358,8 +358,6 @@ monaco.languages.registerCompletionItemProvider('luau', {
       }
     }
 
-    console.log(tokens)
-
     const gameChildren = {
       "Workspace": { properties: ["CurrentCamera", "Gravity", "DistributedGameTime", "FallenPartsDestroyHeight", "Terrain"], functions: { ".": [], ":": ["Raycast", "Blockcast", "GetBoundingBox", "GetChildren"] } },
       "Players": { properties: ["LocalPlayer", "PlayerAdded", "PlayerRemoving"], functions: { ".": [], ":": ["Chat", "GetPlayers", "GetPlayerByUserId", "GetPlayerFromCharacter"] } },
@@ -385,7 +383,6 @@ monaco.languages.registerCompletionItemProvider('luau', {
       });
     } else if (thirdLastToken === 'game' && lastToken.startsWith('.')) {
       const parentService = secondLastToken.replace('.', '');
-      console.log(parentService)
       if (gameChildren.hasOwnProperty(parentService)) {
         gameChildren[parentService].properties.forEach(property => {
           suggestions.push({
@@ -407,7 +404,6 @@ monaco.languages.registerCompletionItemProvider('luau', {
       }
     } else if (thirdLastToken === 'game' && lastToken.startsWith(':')) {
       const parentService = secondLastToken.replace('.', '');
-      console.log(parentService)
       if (gameChildren.hasOwnProperty(parentService)) {
         gameChildren[parentService].functions[":"].forEach(func => {
           suggestions.push({
@@ -436,7 +432,6 @@ monaco.languages.registerCompletionItemProvider('luau', {
       });
     } else if (lastToken.startsWith(':') && secondLastToken === 'workspace') {
       const parentService = "Workspace";
-      console.log(parentService)
       if (gameChildren.hasOwnProperty(parentService)) {
         gameChildren[parentService].functions[":"].forEach(func => {
           suggestions.push({
@@ -450,7 +445,6 @@ monaco.languages.registerCompletionItemProvider('luau', {
       }
     } else if (lastToken.startsWith('.') && secondLastToken === 'workspace') {
       const parentService = "Workspace";
-      console.log(parentService)
       if (gameChildren.hasOwnProperty(parentService)) {
         gameChildren[parentService].properties.forEach(property => {
           suggestions.push({
