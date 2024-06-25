@@ -66,83 +66,6 @@
             importScripts('https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/base/worker/workerMain.js');
         `], { type: 'text/javascript' }));
 
-        require(['vs/editor/editor.main'], function () {
-            window.editor = monaco.editor.create(document.getElementById('editor'), {
-                value: '-- Code',
-                language: 'lua',
-                theme: 'vs-dark',
-                automaticLayout: true
-            });
-        });
-
-        <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web UI</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/loader.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            color: #007BFF;
-        }
-        p {
-            font-size: 1.2em;
-        }
-        .container {
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        button {
-            color: white;
-            background-color: #007BFF;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 5px;
-            border: none;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #editor {
-            height: 60vh;
-            border: 1px solid #000;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Welcome to the Roblox PC Interface Web UI</h1>
-        <p>Executor:</p>
-        <div id="editor"></div>
-        <button id="execute">Execute</button>
-        <p id="server-info"></p>
-    </div>
-    <script>
-        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs' } });
-
-        window.MonacoEnvironment = { getWorkerUrl: () => proxy };
-        let proxy = URL.createObjectURL(new Blob([`
-            self.MonacoEnvironment = {
-                baseUrl: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/'
-            };
-            importScripts('https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/base/worker/workerMain.js');
-        `], { type: 'text/javascript' }));
-
         // Fetch and eval luajs script
         fetch('/luajs')
             .then(response => response.text())
@@ -161,40 +84,6 @@
                 automaticLayout: true
             });
         });
-
-        document.getElementById("execute").addEventListener('click', function() {
-            var codeContent = window.editor.getValue();
-            fetch('/execute', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ code: codeContent })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Code executed successfully');
-                } else {
-                    alert('Error executing code: ' + data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
-
-        fetch('/server-info')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('server-info').innerText = `Server running on: ${data.url}`;
-            })
-            .catch(error => {
-                console.error('Error fetching server info:', error);
-            });
-    </script>
-</body>
-</html>
 
         document.getElementById("execute").addEventListener('click', function() {
             var codeContent = window.editor.getValue();
