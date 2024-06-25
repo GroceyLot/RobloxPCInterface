@@ -332,6 +332,8 @@ monaco.languages.registerCompletionItemProvider('luau', {
 
     const lastWord = textUntilPosition.split(/[\s.]+/).pop();
 
+    console.log(lastWord)
+
     if (lastWord === 'game.') {
       const gameChildren = ["Players", "Lighting", "ReplicatedStorage", "ServerStorage"];
       gameChildren.forEach(child => {
