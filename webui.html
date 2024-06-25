@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web UI</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/loader.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -45,24 +46,73 @@
             border: 1px solid #000;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/loader.min.js"></script>
 </head>
 <body>
     <div class="container">
         <h1>Welcome to the Roblox PC Interface Web UI</h1>
         <p>Executor:</p>
-        <div id="editor"></div>
+        <div id="editor"></div> <!-- Changed to div for Monaco Editor -->
         <button id="execute">Execute</button>
         <p id="server-info"></p>
     </div>
     <script>
-        // Load the script from GitHub
-        fetch('https://raw.githubusercontent.com/GroceyLot/RobloxPCInterface/Things/script.js')
-            .then(response => response.text())
-            .then(script => {
-                eval(script);
+        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs' } });
+
+        window.MonacoEnvironment = { getWorkerUrl: () => proxy };
+        let proxy = URL.createObjectURL(new Blob([`
+            self.MonacoEnvironment = {
+                baseUrl: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/'
+            };
+            importScripts('https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/base/worker/workerMain.js');
+        `], { type: 'text/javascript' }));
+
+        require(['vs/editor/editor.main'], function () {
+            const cacheBuster = new Date().getTime(); // Use timestamp as a cache buster
+            const url = `https://raw.githubusercontent.com/GroceyLot/RobloxPCInterface/Things/lua.js?cache=${cacheBuster}`;
+
+            fetch(url)
+                .then(response => response.text())
+                .then(luaLanguageDef => {
+
+                    // Evaluate the luaLanguageDef
+                    eval(luaLanguageDef);
+
+                    window.editor = monaco.editor.create(document.getElementById('editor'), {
+                        value: '-- Code',
+                        language: 'luau',
+                        theme: 'vs-dark',
+                        automaticLayout: true
+                    });
+                });
+        });
+
+        document.getElementById("execute").addEventListener('click', function() {
+            var codeContent = window.editor.getValue();
+            fetch('/execute', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ code: codeContent })
             })
-            .catch(error => console.error('Error loading script:', error));
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Code executed successfully');
+                } else {
+                    alert('Error executing code: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+        fetch('/server-info')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('server-info').innerText = `Server running on: ${data.url}`;
+            });
     </script>
 </body>
 </html>
