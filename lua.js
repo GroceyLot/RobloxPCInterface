@@ -176,15 +176,18 @@ monaco.languages.register({ id: 'luau' });
 monaco.languages.setMonarchTokensProvider('luau', language);
 
 monaco.languages.setLanguageConfiguration('luau', conf);
-
 monaco.languages.registerCompletionItemProvider('luau', {
   provideCompletionItems: (model, position) => {
     const textUntilPosition = model.getValueInRange({
-      startLineNumber: position.lineNumber,
+      startLineNumber: 1,
       startColumn: 1,
       endLineNumber: position.lineNumber,
       endColumn: position.column
     });
+
+    // Extract all variable names from the text until the current position
+    const variableMatches = textUntilPosition.match(/\b[a-zA-Z_]\w*\b/g);
+    const uniqueVariables = [...new Set(variableMatches)];
 
     const suggestions = [
       {
@@ -304,9 +307,17 @@ monaco.languages.registerCompletionItemProvider('luau', {
       }
     ];
 
+    uniqueVariables.forEach(variable => {
+      suggestions.push({
+        label: variable,
+        kind: monaco.languages.CompletionItemKind.Variable,
+        insertText: variable,
+        detail: 'Local variable'
+      });
+    });
+
     if (textUntilPosition.includes('game.')) {
-      // Add suggestions for properties and services under game
-      const gameChildren = ["Players", "Lighting", "ReplicatedStorage", "ServerStorage"]; // Add your game services here
+      const gameChildren = ["Players", "Lighting", "ReplicatedStorage", "ServerStorage"];
       gameChildren.forEach(child => {
         suggestions.push({
           label: child,
