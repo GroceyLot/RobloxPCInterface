@@ -330,27 +330,32 @@ monaco.languages.registerCompletionItemProvider('luau', {
       });
     });
 
-    if (currentToken === 'game') {
+    const lastWord = textUntilPosition.split(/[\s.]+/).pop();
+
+    if (lastWord === 'game.') {
       const gameChildren = ["Players", "Lighting", "ReplicatedStorage", "ServerStorage"];
       gameChildren.forEach(child => {
         suggestions.push({
           label: child,
           kind: monaco.languages.CompletionItemKind.Variable,
-          insertText: '.' + child,
+          insertText: child,
           detail: `${child} service`
         });
       });
+    }
+
+    if (lastWord === 'game:') {
       suggestions.push({
         label: 'HttpGet',
         kind: monaco.languages.CompletionItemKind.Function,
-        insertText: ':HttpGet("${1:url}")',
+        insertText: 'HttpGet("${1:url}")',
         insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
         detail: 'HTTP requests'
       });
       suggestions.push({
         label: 'GetService',
         kind: monaco.languages.CompletionItemKind.Function,
-        insertText: ':GetService("${1:service}")',
+        insertText: 'GetService("${1:service}")',
         insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
         detail: 'Get a service'
       });
@@ -359,4 +364,5 @@ monaco.languages.registerCompletionItemProvider('luau', {
     return { suggestions: suggestions };
   }
 });
+
 
