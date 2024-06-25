@@ -51,7 +51,7 @@
     <div class="container">
         <h1>Welcome to the Roblox PC Interface Web UI</h1>
         <p>Executor:</p>
-        <div id="editor"></div> <!-- Changed to div for Monaco Editor -->
+        <div id="editor"></div>
         <button id="execute">Execute</button>
         <p id="server-info"></p>
     </div>
@@ -67,22 +67,27 @@
         `], { type: 'text/javascript' }));
 
         require(['vs/editor/editor.main'], function () {
-            const cacheBuster = new Date().getTime(); // Use timestamp as a cache buster
+            const cacheBuster = new Date().getTime();
             const url = `https://raw.githubusercontent.com/GroceyLot/RobloxPCInterface/Things/lua.js?cache=${cacheBuster}`;
 
             fetch(url)
                 .then(response => response.text())
                 .then(luaLanguageDef => {
+                    try {
+                        eval(luaLanguageDef);
 
-                    // Evaluate the luaLanguageDef
-                    eval(luaLanguageDef);
-
-                    window.editor = monaco.editor.create(document.getElementById('editor'), {
-                        value: '-- Code',
-                        language: 'luau',
-                        theme: 'vs-dark',
-                        automaticLayout: true
-                    });
+                        window.editor = monaco.editor.create(document.getElementById('editor'), {
+                            value: '-- Code',
+                            language: 'luau',
+                            theme: 'vs-dark',
+                            automaticLayout: true
+                        });
+                    } catch (e) {
+                        console.error('Error evaluating luaLanguageDef:', e);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching luaLanguageDef:', error);
                 });
         });
 
@@ -112,6 +117,9 @@
             .then(response => response.json())
             .then(data => {
                 document.getElementById('server-info').innerText = `Server running on: ${data.url}`;
+            })
+            .catch(error => {
+                console.error('Error fetching server info:', error);
             });
     </script>
 </body>
