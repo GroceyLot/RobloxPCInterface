@@ -13,7 +13,12 @@ require(['vs/editor/editor.main'], function () {
     const url = `https://raw.githubusercontent.com/GroceyLot/RobloxPCInterface/Things/lua.js?cache=${cacheBuster}`;
 
     fetch(url)
-        .then(response => response.text())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Network response was not ok: ${response.statusText}`);
+            }
+            return response.text();
+        })
         .then(luaLanguageDef => {
             eval(luaLanguageDef);
 
@@ -23,6 +28,9 @@ require(['vs/editor/editor.main'], function () {
                 theme: 'vs-dark',
                 automaticLayout: true
             });
+        })
+        .catch(error => {
+            console.error('Error loading Lua language definition:', error);
         });
 });
 
@@ -49,7 +57,15 @@ document.getElementById("execute").addEventListener('click', function() {
 });
 
 fetch('/server-info')
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+        return response.json();
+    })
     .then(data => {
         document.getElementById('server-info').innerText = `Server running on: ${data.url}`;
+    })
+    .catch(error => {
+        console.error('Error fetching server info:', error);
     });
