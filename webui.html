@@ -67,7 +67,7 @@
         `], { type: 'text/javascript' }));
 
         require(['vs/editor/editor.main'], function () {
-            fetch('https://github.com/GroceyLot/RobloxPCInterface/raw/Things/lua.js')
+            fetch('https://raw.githubusercontent.com/GroceyLot/RobloxPCInterface/Things/lua.js')
             .then(response => response.text())
             .then(scriptText => {
                 eval(scriptText);
