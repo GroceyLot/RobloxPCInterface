@@ -5,7 +5,7 @@ A helpful tool which lets you interact and execute scripts from your local files
 ## Warning:
 ### DO NOT RUN THIS ON A PUBLIC NETWORK, AS IT EXPOSES YOUR FILESYSTEM AND OPENS A PORT. IT PROBABLY ALSO HAS BUGS/EXPLOITS SO JUST DON'T. I'M NOT RESPONSIBLE FOR ANY DAMAGE CAUSED WITH MY SOFTWARE.
 
-Installation:
+## Installation:
 - Download the exe from the latest release on the right --->
 - Place it in a folder, along with some commonly used scripts like infinite yield
 - Run it, and choose your port, 80 is usually good, but if it doesn't work just try a random number from 1024 to 65535
