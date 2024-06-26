@@ -6,6 +6,8 @@ If you're seeing this please try the program, and if you find any bugs or want s
 
 ## Warning:
 ### DO NOT RUN THIS ON A PUBLIC NETWORK, AS IT EXPOSES YOUR FILESYSTEM AND OPENS A PORT. IT PROBABLY ALSO HAS BUGS/EXPLOITS SO JUST DON'T. I'M NOT RESPONSIBLE FOR ANY DAMAGE CAUSED WITH MY SOFTWARE.
+Or in less techy words:
+### DO NOT RUN THIS IN AN AIRPORT OR CAFE, ONLY DO IT AT HOME WITH TRUSTED PEOPLE ON THE WI-FI
 
 ## Installation:
 - Download the exe from the latest release on the right --->
