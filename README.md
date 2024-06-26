@@ -16,7 +16,15 @@ A helpful tool which lets you interact and execute scripts from your local files
 - You will see this:
 
 ![image](https://github.com/GroceyLot/RobloxPCInterface/assets/108685271/405e8afc-06da-442d-9dbd-0b777506adb7)
-- Copy the link by clicking the text, and paste it into your browser followed by /webui
+- Copy the link by clicking the text:
+
+![image](https://github.com/GroceyLot/RobloxPCInterface/assets/108685271/252d6919-c76a-4753-8155-07a40fe813d6)
+- And paste it into your browser followed by /webui:
+
+![image](https://github.com/GroceyLot/RobloxPCInterface/assets/108685271/aa488e18-f031-460b-b278-924b8c6064f4)
+
+![image](https://github.com/GroceyLot/RobloxPCInterface/assets/108685271/2e439d0d-c12f-40e4-a408-77cb48386095)
+
 - Then, go onto roblox and execute this:
 ```
 loadstring(game:HttpGet("https://github.com/GroceyLot/RobloxPCInterface/raw/Things/interface.lua"))()
