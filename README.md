@@ -2,6 +2,8 @@
 
 A helpful tool which lets you interact and execute scripts from your local filesystem in roblox. Especially useful when using an android emulator.
 
+If you're seeing this please try the program, and if you find any bugs or want some features, show it in issues.
+
 ## Warning:
 ### DO NOT RUN THIS ON A PUBLIC NETWORK, AS IT EXPOSES YOUR FILESYSTEM AND OPENS A PORT. IT PROBABLY ALSO HAS BUGS/EXPLOITS SO JUST DON'T. I'M NOT RESPONSIBLE FOR ANY DAMAGE CAUSED WITH MY SOFTWARE.
 
