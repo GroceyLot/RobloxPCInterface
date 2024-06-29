@@ -484,11 +484,11 @@ local function loadData()
     writefile("gotoIp.txt", urlTextBox.Text)
 	loading = true
 	local done = false
-	local dataJson, errorMessage, errorOccurred = nil, "", false
+	local data, dataJson, errorMessage, errorOccurred = nil, "", false
 
 	task.spawn(function()
 		local success, result = pcall(function()
-			local data = game:HttpGet(urlTextBox.Text)
+			data = game:HttpGet(urlTextBox.Text)
 			dataJson = game.HttpService:JSONDecode(data)
 			if not dataJson then
 				errorMessage = "No response"
@@ -518,6 +518,9 @@ local function loadData()
 
 	if errorOccurred then
 		createFile(errorMessage)
+		if data then
+			print(data)
+		end
 	else
 		handleData(dataJson)
 	end
