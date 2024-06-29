@@ -528,8 +528,8 @@ loadButton.MouseButton1Click:Connect(loadData)
 
 function extract_base_url(url)
     -- Match URLs with port and without port, ensuring the URL ends with a slash
-    local base_url = url:match("^(http://%d+%.%d+%.%d+%.%d+:%d+)/") or url:match("^(http://%d+%.%d+%.%d+%.%d+)")
-    if base_url and base_url:sub(base_url:len(),base_url:len()) ~= "/" then
+    local base_url = url:match("^(https?://%d+%.%d+%.%d+%.%d+:%d+)/?") or url:match("^(https?://%d+%.%d+%.%d+%.%d+)/?")
+    if base_url and base_url:sub(base_url:len(), base_url:len()) ~= "/" then
         base_url = base_url .. "/"
     end
     return base_url
