@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,26 +9,46 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            color: #333;
+            background-color: #000;
+            color: #c2ffef;
             margin: 0;
             padding: 20px;
         }
+
         h1 {
-            color: #007BFF;
+            color: #00ffbb;
         }
+
+        h3 {
+            color: #00805E;
+        }
+
         p {
             font-size: 1.2em;
         }
+
         .container {
-            margin: 0 auto;
-            background-color: #fff;
+            margin: 20px 10px;
+            background-color: #111;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
         }
+
+        .scripts-container {
+            margin: 10px 0px;
+            background-color: #222;
+            padding: 20px 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
         button {
-            color: white;
-            background-color: #007BFF;
+            color: #000;
+            background-color: #00ffbb;
             padding: 10px 20px;
             text-align: center;
             text-decoration: none;
@@ -38,22 +59,142 @@
             border-radius: 5px;
             border: none;
         }
-        button:hover {
-            background-color: #0056b3;
+
+        input {
+            color: #000;
+            background-color: #00ffbb;
+            padding: 10px 20px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: text;
+            border-radius: 5px;
+            border: none;
         }
+
+        label {
+            color: #000;
+            background-color: #00ffbb;
+            padding: 10px 20px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #00805E;
+        }
+
         #editor {
+            height: 100%;
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        #editor-container {
             height: 60vh;
-            border: 1px solid #000;
+            margin: 10px 2px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .script-card h3,
+        .script-card p {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
+            margin: 0;
+            /* Adjust the general font size */
+        }
+
+        .script-card h3 {
+            font-size: 1em;
+            /* Adjust the font size for headings */
+            margin: 5px 0;
+        }
+
+        .script-card p {
+            font-size: 0.75em;
+            /* Adjust the font size for paragraphs */
+            margin: 5px 0;
+        }
+
+        .script-card-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .script-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 15vh;
+            padding: 10px;
+            text-align: left;
+            background-color: #333;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .script-card img {
+            width: 100%;
+            height: 60%;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #fff;
+            object-fit: cover;
+        }
+
+        .script-card-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+
+        .script-card-content div {
+            flex: 1;
+            min-width: 0;
+            /* Ensures the content doesn't grow too large */
+        }
+
+        .script-card-content button {
+            flex-shrink: 0;
+            /* Prevents the button from shrinking */
+            margin-left: 10px;
+            /* Adds some space between the text and the button */
+            font-size: 0.8em;
+            /* Reduces the font size of the button */
+            padding: 5px 10px;
+            /* Reduces the padding of the button */
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Welcome to the Roblox PC Interface Web UI</h1>
-        <p id="server-info"></p>
-        <p>Executor:</p>
-        <div id="editor"></div>
+        <h3 id="server-info">SERVER DEAD HELPPPP</h3>
+        <h2>Executor:</h2>
+        <div id="editor-container">
+            <div id="editor"></div>
+        </div>
         <button id="execute">Execute</button>
+    </div>
+    <div class="container">
+        <h2>ScriptBlox:</h2>
+        <label for="search-box">Search:</label>
+        <input id="search-box" type="text">
+        <button id="submit">GO</button>
+        <div class="scripts-container" id="scripts-container">
+        </div>
     </div>
     <script>
         require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs' } });
@@ -68,22 +209,22 @@
 
         require(['vs/editor/editor.main'], function () {
             fetch('https://raw.githubusercontent.com/GroceyLot/RobloxPCInterface/Things/lua.js')
-            .then(response => response.text())
-            .then(scriptText => {
-                eval(scriptText);
-                window.editor = monaco.editor.create(document.getElementById('editor'), {
-                    value: '-- Code',
-                    language: 'luau',
-                    theme: 'vs-dark',
-                    automaticLayout: true
+                .then(response => response.text())
+                .then(scriptText => {
+                    eval(scriptText);
+                    window.editor = monaco.editor.create(document.getElementById('editor'), {
+                        value: '-- Code',
+                        language: 'luau',
+                        theme: 'vs-dark',
+                        automaticLayout: true
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching luajs:', error);
                 });
-            })
-            .catch(error => {
-                console.error('Error fetching luajs:', error);
-            });
         });
 
-        document.getElementById("execute").addEventListener('click', function() {
+        document.getElementById("execute").addEventListener('click', function () {
             var codeContent = window.editor.getValue();
             fetch('/execute', {
                 method: 'POST',
@@ -92,18 +233,39 @@
                 },
                 body: JSON.stringify({ code: codeContent })
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Code executed successfully');
-                } else {
-                    alert('Error executing code: ' + data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Code executed successfully');
+                    } else {
+                        alert('Error executing code: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         });
+
+        function execute(script) {
+            fetch('/execute', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ code: script })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Code executed successfully');
+                    } else {
+                        alert('Error executing code: ' + data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
 
         fetch('/server-info')
             .then(response => response.json())
@@ -113,6 +275,36 @@
             .catch(error => {
                 console.error('Error fetching server info:', error);
             });
+
+        document.getElementById('submit').addEventListener('click', function () {
+            const query = document.getElementById('search-box').value;
+            fetch(`https://scriptblox.com/api/script/search?q=${query}&page=1&mode=free`)
+                .then(response => response.json())
+                .then(data => {
+                    const scriptsContainer = document.getElementById('scripts-container');
+                    scriptsContainer.innerHTML = '';
+                    data.result.scripts.forEach(script => {
+                        const scriptCard = document.createElement('div');
+                        scriptCard.className = 'script-card';
+                        const img = document.createElement('img');
+                        img.src = `https://scriptblox.com${script.game.imageUrl}`;
+                        img.alt = 'Script image';
+                        scriptCard.appendChild(img);
+                        const cardContent = document.createElement('div');
+                        cardContent.className = 'script-card-content';
+                        cardContent.innerHTML = `<div><h3>${script.title}</h3><p>${script.game.name}</p></div>`;
+                        const runButton = document.createElement('button');
+                        runButton.textContent = 'Run';
+                        runButton.onclick = () => execute(script.script);
+                        cardContent.appendChild(runButton);
+                        scriptCard.appendChild(cardContent);
+                        scriptsContainer.appendChild(scriptCard);
+                    });
+                })
+                .catch(error => console.error('Error fetching scripts:', error));
+        });
+
     </script>
 </body>
+
 </html>
