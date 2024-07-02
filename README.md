@@ -11,7 +11,7 @@ If you're seeing this, please try the program, and if you find any bugs or want 
 DO NOT RUN THIS ON ANY WIFI OTHER THAN YOUR HOME WIFI, AS YOU **WILL** GET HACKED
 
 ## Installation:
-- Download the exe from the latest release on the right --->
+- Download the exe from the latest release
 - Place it in a folder, along with some commonly used scripts like infinite yield
 - Run it, and you will see this:
 
