@@ -223,29 +223,7 @@
                     console.error('Error fetching luajs:', error);
                 });
         });
-
-        document.getElementById("execute").addEventListener('click', function () {
-            var codeContent = window.editor.getValue();
-            fetch('/execute', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ code: codeContent })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Code executed successfully');
-                    } else {
-                        alert('Error executing code: ' + data.error);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        });
-
+        
         function execute(script) {
             fetch('/execute', {
                 method: 'POST',
@@ -266,6 +244,11 @@
                     console.error('Error:', error);
                 });
         }
+
+        document.getElementById("execute").addEventListener('click', function () {
+            var codeContent = window.editor.getValue();
+            execute(codeContent);
+        });
 
         fetch('/server-info')
             .then(response => response.json())
