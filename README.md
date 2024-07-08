@@ -2,6 +2,7 @@
 
 A helpful tool which lets you interact and execute scripts from your local filesystem in roblox. Especially useful when using an android emulator.
 
+### Development paused due to hydrogen android being down
 
 Sorry about the fact that every time I release a new release, everything breaks on old ones.
 
